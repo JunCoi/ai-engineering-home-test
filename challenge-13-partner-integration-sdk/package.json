@@ -1,0 +1,36 @@
+{
+  "name": "partner-integration-sdk",
+  "version": "1.0.0",
+  "description": "Partner Integration SDK for Insurance Claims",
+  "type": "module",
+  "exports": {
+    ".": "./dist/sdk/index.js"
+  },
+  "types": "dist/sdk/index.d.ts",
+  "scripts": {
+    "server": "tsx src/server/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "build": "tsc",
+    "example:1": "tsx examples/01-simple-claim.ts",
+    "example:2": "tsx examples/02-claim-with-document.ts",
+    "example:3": "tsx examples/03-status-polling.ts"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^22.5.0",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  }
+}
