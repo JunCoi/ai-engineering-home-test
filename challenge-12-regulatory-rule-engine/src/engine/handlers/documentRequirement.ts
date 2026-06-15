@@ -8,7 +8,8 @@ export function validateDocumentRequirement(rule: Rule, claim: Claim, countryNam
   }
 
   const requiredDocuments = rule.parameters.requiredDocuments as DocumentType[];
-  const missing = requiredDocuments.filter((doc) => !claim.documents.includes(doc));
+  const uploadedDocs = claim.documents as string[];
+  const missing = requiredDocuments.filter((doc) => !uploadedDocs.includes(doc));
 
   if (missing.length === 0) {
     return { ruleId: rule.ruleId, ruleType: rule.ruleType, status: 'PASS', message: 'All required documents are present.' };

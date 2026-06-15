@@ -15,7 +15,8 @@
     "build": "tsc",
     "example:1": "tsx examples/01-simple-claim.ts",
     "example:2": "tsx examples/02-claim-with-document.ts",
-    "example:3": "tsx examples/03-status-polling.ts"
+    "example:3": "tsx examples/03-status-polling.ts",
+    "example:4": "tsx examples/04-integrated-pipeline.ts"
   },
   "dependencies": {
     "express": "^4.19.2",

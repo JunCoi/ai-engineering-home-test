@@ -15,8 +15,10 @@ export type ValidationOutput = {
 };
 
 export class RuleEngine {
+  constructor(private readonly configDir?: string) {}
+
   validateClaim(claim: Claim): ValidationOutput {
-    const config = loadCountryConfig(claim.countryCode);
+    const config = loadCountryConfig(claim.countryCode, this.configDir);
     const activeRules = getActiveRules(config, claim.submissionDate);
     const results = activeRules.map((rule) => this.validateRule(rule, claim, config.country));
     const failed = results.filter((r) => r.status === 'FAIL').length;

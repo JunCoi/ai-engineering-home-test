@@ -1,4 +1,5 @@
-export type { ClaimType, ConditionType, CoverageLevel, DocumentType, NetworkStatus, TreatmentType } from '../../../shared/src/types/index.js';
+import type { ClaimType, ConditionType, CoverageLevel, DocumentType, NetworkStatus, TreatmentType } from '../../../shared/src/types/index.js';
+export type { ClaimType, ConditionType, CoverageLevel, DocumentType, NetworkStatus, TreatmentType };
 
 export type Claim = {
   claimId: string;

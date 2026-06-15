@@ -13,5 +13,12 @@
     "declarationMap": true,
     "sourceMap": true
   },
-  "include": ["src", "tests", "examples", "../shared/src"]
+  "include": [
+    "src",
+    "tests",
+    "examples",
+    "../shared/src",
+    "../challenge-11-claim-assessment-agent/src",
+    "../challenge-12-regulatory-rule-engine/src"
+  ]
 }
