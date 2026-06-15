@@ -14,16 +14,6 @@ This repository contains my submission for the AI Engineering home test.
 
 I chose Node.js with TypeScript because the role focuses on full-stack TypeScript development and insurance technology. The challenge also benefits from strongly typed configuration schemas, CLI tooling, and testable business-rule handlers.
 
-## Estimated Timeline
-
-Estimated timeline: **5–6 hours**
-
-- 45–60 minutes: rule schema design and project setup
-- 2 hours: rule engine implementation
-- 1 hour: country configs and test claims
-- 1 hour: CLI, rule diff, rule versioning, and tests
-- 30–60 minutes: documentation, sample output, and cleanup
-
 ## Folders
 
 ### `regulatory-rule-engine`
