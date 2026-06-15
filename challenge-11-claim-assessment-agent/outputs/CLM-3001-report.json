@@ -1,0 +1,86 @@
+{
+  "claimId": "CLM-3001",
+  "recommendation": "REQUEST_MORE_INFO",
+  "documentReview": [
+    {
+      "documentId": "DOC-3001-RECEIPT",
+      "expectedType": "medical_receipt",
+      "actualType": "medical_receipt",
+      "status": "complete",
+      "issues": []
+    },
+    {
+      "documentId": "DOC-3001-REFERRAL-WRONG",
+      "expectedType": "referral_letter",
+      "actualType": "appointment_slip",
+      "status": "wrong_type",
+      "issues": [
+        "Submitted document is an appointment slip, not a referral letter"
+      ]
+    }
+  ],
+  "policyVerification": {
+    "policyActive": true,
+    "memberCovered": true,
+    "claimTypeCovered": true,
+    "issues": [],
+    "citations": [
+      "POL-3001-C1"
+    ]
+  },
+  "medicalNecessity": {
+    "isMedicallyNecessary": true,
+    "explanation": "Procedures are clinically appropriate for diagnosis: persistent knee pain",
+    "citations": [
+      "POL-3001-C4"
+    ]
+  },
+  "benefitCalculation": {
+    "submittedAmount": 900,
+    "coveredAmount": 0,
+    "copay": 0,
+    "memberResponsibility": 900,
+    "remainingLimitAfterClaim": 2000,
+    "citations": [
+      "POL-3001-C2"
+    ]
+  },
+  "reasoning": [
+    "Required document issue: Submitted document is an appointment slip, not a referral letter"
+  ],
+  "policyCitations": [
+    "POL-3001-C2"
+  ],
+  "toolCallLogs": [
+    {
+      "toolName": "verifyDocument",
+      "input": "see source data",
+      "output": "see generated report section",
+      "calledAt": "2026-06-15T04:50:00.000Z"
+    },
+    {
+      "toolName": "verifyDocument",
+      "input": "see source data",
+      "output": "see generated report section",
+      "calledAt": "2026-06-15T04:50:00.000Z"
+    },
+    {
+      "toolName": "lookupPolicy",
+      "input": "see source data",
+      "output": "see generated report section",
+      "calledAt": "2026-06-15T04:50:00.000Z"
+    },
+    {
+      "toolName": "checkMedicalNecessity",
+      "input": "see source data",
+      "output": "see generated report section",
+      "calledAt": "2026-06-15T04:50:00.000Z"
+    },
+    {
+      "toolName": "calculateBenefit",
+      "input": "see source data",
+      "output": "see generated report section",
+      "calledAt": "2026-06-15T04:50:00.000Z"
+    }
+  ]
+}

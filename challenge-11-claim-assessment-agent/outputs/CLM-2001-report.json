@@ -1,0 +1,87 @@
+{
+  "claimId": "CLM-2001",
+  "recommendation": "REJECT",
+  "documentReview": [
+    {
+      "documentId": "DOC-2001-RECEIPT",
+      "expectedType": "medical_receipt",
+      "actualType": "medical_receipt",
+      "status": "complete",
+      "issues": []
+    },
+    {
+      "documentId": "DOC-2001-DIAGNOSIS",
+      "expectedType": "diagnosis_note",
+      "actualType": "diagnosis_note",
+      "status": "complete",
+      "issues": []
+    }
+  ],
+  "policyVerification": {
+    "policyActive": true,
+    "memberCovered": true,
+    "claimTypeCovered": true,
+    "issues": [],
+    "citations": [
+      "POL-2001-C1"
+    ]
+  },
+  "medicalNecessity": {
+    "isMedicallyNecessary": false,
+    "explanation": "Procedures are not clinically supported for diagnosis: cosmetic skin resurfacing. Unsupported procedures: cosmetic_treatment",
+    "citations": [
+      "UNKNOWN_CLAUSE"
+    ]
+  },
+  "benefitCalculation": {
+    "submittedAmount": 1500,
+    "coveredAmount": 0,
+    "copay": 0,
+    "memberResponsibility": 1500,
+    "remainingLimitAfterClaim": 700,
+    "citations": [
+      "POL-2001-C4"
+    ]
+  },
+  "reasoning": [
+    "Procedure cosmetic_treatment is excluded by the policy.",
+    "Procedures are not clinically supported for diagnosis: cosmetic skin resurfacing. Unsupported procedures: cosmetic_treatment",
+    "Submitted amount exceeds the remaining benefit limit."
+  ],
+  "policyCitations": [
+    "POL-2001-C3",
+    "POL-2001-C4"
+  ],
+  "toolCallLogs": [
+    {
+      "toolName": "verifyDocument",
+      "input": "see source data",
+      "output": "see generated report section",
+      "calledAt": "2026-06-15T04:50:00.000Z"
+    },
+    {
+      "toolName": "verifyDocument",
+      "input": "see source data",
+      "output": "see generated report section",
+      "calledAt": "2026-06-15T04:50:00.000Z"
+    },
+    {
+      "toolName": "lookupPolicy",
+      "input": "see source data",
+      "output": "see generated report section",
+      "calledAt": "2026-06-15T04:50:00.000Z"
+    },
+    {
+      "toolName": "checkMedicalNecessity",
+      "input": "see source data",
+      "output": "see generated report section",
+      "calledAt": "2026-06-15T04:50:00.000Z"
+    },
+    {
+      "toolName": "calculateBenefit",
+      "input": "see source data",
+      "output": "see generated report section",
+      "calledAt": "2026-06-15T04:50:00.000Z"
+    }
+  ]
+}

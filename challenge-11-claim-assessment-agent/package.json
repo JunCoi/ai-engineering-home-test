@@ -1,0 +1,23 @@
+{
+  "name": "challenge-11-claim-assessment-agent",
+  "version": "1.0.0",
+  "description": "AI Challenge 11 - Claim Assessment AI Agent implemented with deterministic TypeScript tools and traceable assessment reports.",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/cli.ts",
+    "assess": "tsx src/cli.ts assess-all",
+    "assess:one": "tsx src/cli.ts assess",
+    "test": "vitest run",
+    "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "date-fns": "^3.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.3",
+    "vitest": "^2.0.3"
+  }
+}
