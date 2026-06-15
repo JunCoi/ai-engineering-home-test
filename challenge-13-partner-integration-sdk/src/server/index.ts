@@ -3,6 +3,8 @@ import multer from 'multer';
 import { randomUUID } from 'node:crypto';
 import jwt from 'jsonwebtoken';
 import type { ClaimType, DocumentType } from '../../../shared/src/types/index.js';
+import type { AssessmentResult, ComplianceResult, CreateClaimInput } from '../sdk/types.js';
+import { hasPipelineFields, runAssessment, runCompliance } from './pipeline.js';
 
 const JWT_SECRET = 'mock-server-secret-do-not-use-in-production';
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
@@ -22,6 +24,8 @@ interface StoredClaim {
   notes?: string;
   createdAt: string;
   updatedAt: string;
+  assessment?: AssessmentResult;
+  compliance?: ComplianceResult;
 }
 
 interface StoredDocument {
@@ -47,7 +51,7 @@ app.use((_req, _res, next) => {
   setTimeout(next, 200 + Math.random() * 300);
 });
 
-// Simulate transient 503 failures (skip auth endpoint so clients can always refresh)
+// Simulate transient 503 failures (skip auth so clients can always refresh)
 app.use((req, res, next) => {
   if (req.path !== '/api/v1/auth/token' && Math.random() < FAILURE_RATE) {
     res.status(503).json({
@@ -88,35 +92,51 @@ app.post('/api/v1/auth/token', (req, res) => {
 
 // POST /api/v1/claims
 app.post('/api/v1/claims', requireAuth, (req, res) => {
-  const body = req.body as Partial<StoredClaim>;
-  const fields: Record<string, string> = {};
+  const body = req.body as Partial<CreateClaimInput>;
+  const errors: Record<string, string> = {};
 
-  if (!body.policyId?.trim()) fields.policyId = 'required';
-  if (!body.claimType) fields.claimType = 'required';
-  if (!body.diagnosisCode?.trim()) fields.diagnosisCode = 'required';
-  if (!body.treatmentDate?.trim()) fields.treatmentDate = 'required';
-  if (body.amount == null || body.amount <= 0) fields.amount = 'must be a positive number';
-  if (!body.currency?.trim()) fields.currency = 'required';
+  if (!body.policyId?.trim()) errors.policyId = 'required';
+  if (!body.claimType) errors.claimType = 'required';
+  if (!body.diagnosisCode?.trim()) errors.diagnosisCode = 'required';
+  if (!body.treatmentDate?.trim()) errors.treatmentDate = 'required';
+  if (body.amount == null || body.amount <= 0) errors.amount = 'must be a positive number';
+  if (!body.currency?.trim()) errors.currency = 'required';
 
-  if (Object.keys(fields).length > 0) {
-    res.status(400).json({ message: 'Validation failed', fields });
+  if (Object.keys(errors).length > 0) {
+    res.status(400).json({ message: 'Validation failed', fields: errors });
     return;
   }
 
+  const input = body as CreateClaimInput;
   const now = new Date().toISOString();
+  const claimId = `CLM-${randomUUID().slice(0, 8).toUpperCase()}`;
+
   const claim: StoredClaim = {
-    id: `CLM-${randomUUID().slice(0, 8).toUpperCase()}`,
-    policyId: body.policyId!,
-    claimType: body.claimType!,
-    diagnosisCode: body.diagnosisCode!,
-    treatmentDate: body.treatmentDate!,
-    amount: body.amount!,
-    currency: body.currency!,
-    notes: body.notes,
+    id: claimId,
+    policyId: input.policyId,
+    claimType: input.claimType,
+    diagnosisCode: input.diagnosisCode,
+    treatmentDate: input.treatmentDate,
+    amount: input.amount,
+    currency: input.currency,
+    notes: input.notes,
     status: 'PENDING',
     createdAt: now,
     updatedAt: now,
   };
+
+  // Run AI assessment (Ch11) + regulatory compliance (Ch12) when extended fields present
+  if (hasPipelineFields(input)) {
+    claim.assessment = runAssessment(claimId, input);
+    claim.compliance = runCompliance(claimId, input);
+
+    // Advance status based on pipeline results
+    const rec = claim.assessment?.recommendation;
+    if (rec === 'APPROVE' || rec === 'REJECT') {
+      claim.status = 'UNDER_REVIEW';
+    }
+  }
+
   claims.set(claim.id, claim);
   res.status(201).json(claim);
 });
@@ -154,41 +174,36 @@ app.get('/api/v1/claims/:id', requireAuth, (req, res) => {
 });
 
 // POST /api/v1/claims/:id/documents
-app.post(
-  '/api/v1/claims/:id/documents',
-  requireAuth,
-  upload.single('file'),
-  (req, res) => {
-    const claimId = req.params.id;
-    if (!claims.has(claimId)) {
-      res.status(404).json({ message: `Claim ${claimId} not found` });
-      return;
-    }
-
-    const fields: Record<string, string> = {};
-    if (!req.file) fields.file = 'required';
-    if (!(req.body as { type?: string }).type) fields.type = 'required';
-
-    if (Object.keys(fields).length > 0) {
-      res.status(400).json({ message: 'Validation failed', fields });
-      return;
-    }
-
-    const doc: StoredDocument = {
-      id: `DOC-${randomUUID().slice(0, 8).toUpperCase()}`,
-      claimId,
-      type: (req.body as { type: string }).type as DocumentType,
-      filename: req.file!.originalname,
-      size: req.file!.size,
-      mimeType: req.file!.mimetype,
-      uploadedAt: new Date().toISOString(),
-    };
-
-    if (!documents.has(claimId)) documents.set(claimId, []);
-    documents.get(claimId)!.push(doc);
-    res.status(201).json(doc);
+app.post('/api/v1/claims/:id/documents', requireAuth, upload.single('file'), (req, res) => {
+  const claimId = req.params.id;
+  if (!claims.has(claimId)) {
+    res.status(404).json({ message: `Claim ${claimId} not found` });
+    return;
   }
-);
+
+  const fieldErrors: Record<string, string> = {};
+  if (!req.file) fieldErrors.file = 'required';
+  if (!(req.body as { type?: string }).type) fieldErrors.type = 'required';
+
+  if (Object.keys(fieldErrors).length > 0) {
+    res.status(400).json({ message: 'Validation failed', fields: fieldErrors });
+    return;
+  }
+
+  const doc: StoredDocument = {
+    id: `DOC-${randomUUID().slice(0, 8).toUpperCase()}`,
+    claimId,
+    type: (req.body as { type: string }).type as DocumentType,
+    filename: req.file!.originalname,
+    size: req.file!.size,
+    mimeType: req.file!.mimetype,
+    uploadedAt: new Date().toISOString(),
+  };
+
+  if (!documents.has(claimId)) documents.set(claimId, []);
+  documents.get(claimId)!.push(doc);
+  res.status(201).json(doc);
+});
 
 // GET /api/v1/claims/:id/documents
 app.get('/api/v1/claims/:id/documents', requireAuth, (req, res) => {
@@ -204,14 +219,14 @@ app.listen(PORT, () => {
   console.log(`\nMock Insurance API — http://localhost:${PORT}`);
   console.log('─'.repeat(50));
   console.log('  POST  /api/v1/auth/token');
-  console.log('  POST  /api/v1/claims');
+  console.log('  POST  /api/v1/claims          (+ AI assessment & compliance when extended fields provided)');
   console.log('  GET   /api/v1/claims');
   console.log('  GET   /api/v1/claims/:id');
   console.log('  POST  /api/v1/claims/:id/documents');
   console.log('  GET   /api/v1/claims/:id/documents');
   console.log('─'.repeat(50));
-  console.log(`  Simulated 503 failure rate: ${(FAILURE_RATE * 100).toFixed(0)}%`);
-  console.log('  SDK retries handle failures automatically\n');
+  console.log('  Pipeline: Ch11 ClaimAssessmentAgent + Ch12 RuleEngine');
+  console.log(`  Simulated 503 failure rate: ${(FAILURE_RATE * 100).toFixed(0)}%\n`);
 });
 
 export { app };

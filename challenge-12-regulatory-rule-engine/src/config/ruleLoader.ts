@@ -4,10 +4,9 @@ import YAML from 'yaml';
 import { countryConfigSchema } from './schema.js';
 import type { CountryConfig, Rule } from '../types/rule.js';
 
-const CONFIG_DIR = path.resolve(process.cwd(), 'configs');
-
-export function loadCountryConfig(countryCode: string): CountryConfig {
-  const filePath = path.join(CONFIG_DIR, `${countryCode}.yaml`);
+export function loadCountryConfig(countryCode: string, configDir?: string): CountryConfig {
+  const dir = configDir ?? path.resolve(process.cwd(), 'configs');
+  const filePath = path.join(dir, `${countryCode}.yaml`);
   if (!fs.existsSync(filePath)) {
     throw new Error(`No config file found for country: ${countryCode}`);
   }
@@ -16,11 +15,12 @@ export function loadCountryConfig(countryCode: string): CountryConfig {
   return countryConfigSchema.parse(parsed);
 }
 
-export function loadAllCountryConfigs(): CountryConfig[] {
+export function loadAllCountryConfigs(configDir?: string): CountryConfig[] {
+  const dir = configDir ?? path.resolve(process.cwd(), 'configs');
   return fs
-    .readdirSync(CONFIG_DIR)
+    .readdirSync(dir)
     .filter((file: string) => file.endsWith('.yaml') && !file.includes('skeleton'))
-    .map((file: string) => loadCountryConfig(file.replace('.yaml', '')));
+    .map((file: string) => loadCountryConfig(file.replace('.yaml', ''), dir));
 }
 
 export function getActiveRules(config: CountryConfig, submissionDate: string): Rule[] {
