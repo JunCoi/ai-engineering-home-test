@@ -19,6 +19,7 @@
     "examples",
     "../shared/src",
     "../challenge-11-claim-assessment-agent/src",
-    "../challenge-12-regulatory-rule-engine/src"
+    "../challenge-12-regulatory-rule-engine/src",
+    "../challenge-14-workflow-orchestrator/src"
   ]
 }

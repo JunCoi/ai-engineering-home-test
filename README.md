@@ -9,7 +9,8 @@ This repository contains my submissions for the AI Engineering home test — a s
 ├── shared/                               # Shared domain types used across challenges
 ├── challenge-11-claim-assessment-agent/  # AI Challenge 11
 ├── challenge-12-regulatory-rule-engine/  # AI Challenge 12
-├── challenge-13-partner-integration-sdk/ # AI Challenge 13
+├── challenge-13-partner-integration-sdk/ # AI Challenge 13 (+ mock server orchestrating Ch11/12/14)
+├── challenge-14-workflow-orchestrator/   # AI Challenge 14
 └── logical-questions/                    # Written answers
 ```
 
@@ -51,6 +52,25 @@ npm run server      # start mock API on http://localhost:3000
 npm run example:1   # simple claim submission
 npm run example:2   # claim + document upload
 npm run example:3   # status polling
+npm test
+```
+
+### Challenge 14 — Workflow Orchestrator
+
+Located in `/challenge-14-workflow-orchestrator`.
+
+A YAML-driven state machine that models the full insurance claim lifecycle across 8 states and 9 transitions. Each transition enforces role-based authorisation, preconditions, and side effects (notifications, payment triggers, archiving). An immutable audit trail tracks every state change.
+
+The Ch13 mock server integrates Ch14 automatically: every new claim is registered in the workflow engine and auto-advanced to `APPROVED`, `REJECTED`, or `PENDING_INFO` based on the Ch11 AI assessment result. Two new endpoints expose the workflow:
+
+- `GET  /api/v1/claims/:id/workflow` — current state, audit trail, valid transitions
+- `POST /api/v1/claims/:id/transition` — manually advance a claim (for human roles: finance, team lead, etc.)
+
+```bash
+cd challenge-14-workflow-orchestrator
+npm install
+npm run scenarios  # run 5 built-in workflow scenarios
+npm run cli -- --help
 npm test
 ```
 

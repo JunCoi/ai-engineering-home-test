@@ -1,0 +1,142 @@
+states:
+  - id: SUBMITTED
+    description: "Claim received, awaiting document verification"
+  - id: DOCUMENTS_VERIFIED
+    description: "All required documents confirmed present and valid"
+  - id: UNDER_ASSESSMENT
+    description: "Assessor is reviewing the claim"
+  - id: PENDING_INFO
+    description: "Additional information requested from member"
+  - id: APPROVED
+    description: "Claim approved for payment"
+  - id: REJECTED
+    description: "Claim denied"
+  - id: PAYMENT_INITIATED
+    description: "Payment processing started"
+  - id: CLOSED
+    description: "Claim lifecycle complete"
+
+transitions:
+  - id: submit_to_docs_verified
+    from: SUBMITTED
+    to: DOCUMENTS_VERIFIED
+    description: "Verify all required documents are present"
+    authorizedRoles: [document_clerk]
+    preconditions:
+      - type: DOCUMENTS_COMPLETE
+        description: "All required documents must be present and valid"
+    sideEffects:
+      - type: NOTIFY
+        params:
+          target: assessor_team
+          message: "Claim is ready for assessment"
+
+  - id: docs_to_assessment
+    from: DOCUMENTS_VERIFIED
+    to: UNDER_ASSESSMENT
+    description: "Assign assessor and begin assessment"
+    authorizedRoles: [team_lead]
+    preconditions:
+      - type: ASSESSOR_ASSIGNED
+        description: "An assessor must be assigned to the claim"
+    sideEffects:
+      - type: LOG_TIMESTAMP
+        params:
+          event: assessment_start
+
+  - id: assessment_to_approved
+    from: UNDER_ASSESSMENT
+    to: APPROVED
+    description: "Approve the claim after successful assessment"
+    authorizedRoles: [assessor]
+    preconditions:
+      - type: ASSESSMENT_REPORT_COMPLETE
+        description: "Assessment report must be completed"
+      - type: AMOUNT_WITHIN_LIMIT
+        description: "Claim amount must be within the policy benefit limit"
+    sideEffects:
+      - type: NOTIFY
+        params:
+          target: member
+          event: approved
+      - type: CREATE_PAYMENT_REQUEST
+
+  - id: assessment_to_rejected
+    from: UNDER_ASSESSMENT
+    to: REJECTED
+    description: "Reject the claim with a stated reason"
+    authorizedRoles: [assessor]
+    preconditions:
+      - type: ASSESSMENT_REPORT_COMPLETE
+        description: "Assessment report must be completed"
+      - type: REJECTION_REASON_PROVIDED
+        description: "A rejection reason must be provided"
+    sideEffects:
+      - type: NOTIFY
+        params:
+          target: member
+          event: rejected
+          includeAppealInstructions: true
+
+  - id: assessment_to_pending_info
+    from: UNDER_ASSESSMENT
+    to: PENDING_INFO
+    description: "Request additional information from member"
+    authorizedRoles: [assessor]
+    preconditions:
+      - type: MISSING_INFO_DESCRIBED
+        description: "A description of the missing information must be provided"
+    sideEffects:
+      - type: NOTIFY
+        params:
+          target: member
+          event: pending_info
+
+  - id: pending_info_to_docs
+    from: PENDING_INFO
+    to: DOCUMENTS_VERIFIED
+    description: "Member submitted additional information or documents"
+    authorizedRoles: [document_clerk]
+    preconditions:
+      - type: NEW_DOCUMENTS_RECEIVED
+        description: "New documents or information must have been received"
+    sideEffects:
+      - type: RESET_TIMER
+        params:
+          event: assessment_timer
+
+  - id: approved_to_payment
+    from: APPROVED
+    to: PAYMENT_INITIATED
+    description: "Initiate payment processing"
+    authorizedRoles: [finance]
+    preconditions:
+      - type: PAYMENT_REQUEST_CREATED
+        description: "A payment request must exist"
+    sideEffects:
+      - type: TRIGGER_PAYMENT_SYSTEM
+
+  - id: payment_to_closed
+    from: PAYMENT_INITIATED
+    to: CLOSED
+    description: "Close the claim after payment is confirmed"
+    authorizedRoles: [finance]
+    preconditions:
+      - type: PAYMENT_CONFIRMED
+        description: "Payment must be confirmed by the payment system"
+    sideEffects:
+      - type: NOTIFY
+        params:
+          target: member
+          event: payment_sent
+
+  - id: rejected_to_closed
+    from: REJECTED
+    to: CLOSED
+    description: "Archive rejected claim after appeal window closes"
+    authorizedRoles: [system]
+    preconditions:
+      - type: APPEAL_RESOLVED
+        description: "Appeal period must have expired or member must have acknowledged the rejection"
+    sideEffects:
+      - type: ARCHIVE_CLAIM

@@ -2,13 +2,18 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ClaimAssessmentAgent } from '../../../challenge-11-claim-assessment-agent/src/agent/claimAssessmentAgent.js';
 import { RuleEngine } from '../../../challenge-12-regulatory-rule-engine/src/engine/RuleEngine.js';
+import { WorkflowEngine } from '../../../challenge-14-workflow-orchestrator/src/engine/WorkflowEngine.js';
+import { loadWorkflowConfig } from '../../../challenge-14-workflow-orchestrator/src/config/workflowLoader.js';
+import type { ClaimWorkflowState } from '../../../challenge-14-workflow-orchestrator/src/types/workflow.js';
 import type { AssessmentResult, ComplianceResult, CreateClaimInput } from '../sdk/types.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const RULE_CONFIG_DIR = resolve(__dirname, '../../../challenge-12-regulatory-rule-engine/configs');
+const WORKFLOW_CONFIG_DIR = resolve(__dirname, '../../../challenge-14-workflow-orchestrator/configs');
 
 const assessmentAgent = new ClaimAssessmentAgent();
 const ruleEngine = new RuleEngine(RULE_CONFIG_DIR);
+export const workflowEngine = new WorkflowEngine(loadWorkflowConfig(WORKFLOW_CONFIG_DIR));
 
 // Fields that activate the pipeline
 export function hasPipelineFields(input: CreateClaimInput): boolean {
@@ -56,6 +61,52 @@ export function runAssessment(
       reasoning: [`Assessment could not be completed: ${message}`],
       policyCitations: [],
     };
+  }
+}
+
+export type { ClaimWorkflowState };
+
+export function initializeClaimWorkflow(
+  claimId: string,
+  assessment?: AssessmentResult
+): ClaimWorkflowState {
+  workflowEngine.createClaim(claimId);
+
+  try {
+    // System pipeline acts as document_clerk: auto-verify documents
+    workflowEngine.transition(claimId, 'DOCUMENTS_VERIFIED', {
+      userId: 'system', role: 'document_clerk', documentsComplete: true,
+    });
+
+    if (!assessment) return 'DOCUMENTS_VERIFIED';
+
+    // System pipeline acts as team_lead: auto-assign AI assessor
+    workflowEngine.transition(claimId, 'UNDER_ASSESSMENT', {
+      userId: 'system', role: 'team_lead', assessorId: 'system-ai',
+    });
+
+    if (assessment.recommendation === 'APPROVE') {
+      workflowEngine.transition(claimId, 'APPROVED', {
+        userId: 'system-ai', role: 'assessor',
+        assessmentReportComplete: true, amountWithinLimit: true,
+      });
+      return 'APPROVED';
+    } else if (assessment.recommendation === 'REJECT') {
+      workflowEngine.transition(claimId, 'REJECTED', {
+        userId: 'system-ai', role: 'assessor',
+        assessmentReportComplete: true,
+        rejectionReason: assessment.reasoning.join('; '),
+      });
+      return 'REJECTED';
+    } else {
+      workflowEngine.transition(claimId, 'PENDING_INFO', {
+        userId: 'system-ai', role: 'assessor',
+        missingInfoDescription: assessment.reasoning.join('; '),
+      });
+      return 'PENDING_INFO';
+    }
+  } catch {
+    return workflowEngine.getCurrentState(claimId).currentState;
   }
 }
 
