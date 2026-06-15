@@ -4,7 +4,15 @@ import { randomUUID } from 'node:crypto';
 import jwt from 'jsonwebtoken';
 import type { ClaimType, DocumentType } from '../../../shared/src/types/index.js';
 import type { AssessmentResult, ComplianceResult, CreateClaimInput } from '../sdk/types.js';
-import { hasPipelineFields, runAssessment, runCompliance } from './pipeline.js';
+import type { TransitionContext } from '../../../challenge-14-workflow-orchestrator/src/types/workflow.js';
+import {
+  hasPipelineFields,
+  runAssessment,
+  runCompliance,
+  initializeClaimWorkflow,
+  workflowEngine,
+  type ClaimWorkflowState,
+} from './pipeline.js';
 
 const JWT_SECRET = 'mock-server-secret-do-not-use-in-production';
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
@@ -26,6 +34,7 @@ interface StoredClaim {
   updatedAt: string;
   assessment?: AssessmentResult;
   compliance?: ComplianceResult;
+  workflowState?: ClaimWorkflowState;
 }
 
 interface StoredDocument {
@@ -130,12 +139,15 @@ app.post('/api/v1/claims', requireAuth, (req, res) => {
     claim.assessment = runAssessment(claimId, input);
     claim.compliance = runCompliance(claimId, input);
 
-    // Advance status based on pipeline results
+    // Advance REST status based on pipeline results
     const rec = claim.assessment?.recommendation;
     if (rec === 'APPROVE' || rec === 'REJECT') {
       claim.status = 'UNDER_REVIEW';
     }
   }
+
+  // Register claim in Ch14 workflow engine and auto-advance based on assessment
+  claim.workflowState = initializeClaimWorkflow(claimId, claim.assessment);
 
   claims.set(claim.id, claim);
   res.status(201).json(claim);
@@ -205,6 +217,53 @@ app.post('/api/v1/claims/:id/documents', requireAuth, upload.single('file'), (re
   res.status(201).json(doc);
 });
 
+// GET /api/v1/claims/:id/workflow — current workflow state + audit trail (Ch14)
+app.get('/api/v1/claims/:id/workflow', requireAuth, (req, res) => {
+  const claimId = req.params.id;
+  if (!claims.has(claimId)) {
+    res.status(404).json({ message: `Claim ${claimId} not found` });
+    return;
+  }
+  try {
+    const state = workflowEngine.getCurrentState(claimId);
+    const auditTrail = workflowEngine.getAuditTrail(claimId);
+    const validTransitions = workflowEngine.getValidTransitions(claimId);
+    res.json({ state, auditTrail, validTransitions });
+  } catch {
+    res.status(404).json({ message: `No workflow state found for claim ${claimId}` });
+  }
+});
+
+// POST /api/v1/claims/:id/transition — manually advance workflow (Ch14)
+app.post('/api/v1/claims/:id/transition', requireAuth, (req, res) => {
+  const claimId = req.params.id;
+  if (!claims.has(claimId)) {
+    res.status(404).json({ message: `Claim ${claimId} not found` });
+    return;
+  }
+  const { toState, context } = req.body as {
+    toState?: ClaimWorkflowState;
+    context?: TransitionContext;
+  };
+  if (!toState || !context?.userId || !context?.role) {
+    res.status(400).json({ message: 'toState, context.userId, and context.role are required' });
+    return;
+  }
+  try {
+    const result = workflowEngine.transition(claimId, toState, context);
+    // Keep StoredClaim workflowState in sync
+    const claim = claims.get(claimId)!;
+    claim.workflowState = result.toState;
+    res.json(result);
+  } catch (err) {
+    const isWorkflowErr = err instanceof Error && 'code' in err;
+    res.status(422).json({
+      message: err instanceof Error ? err.message : 'Transition failed',
+      code: isWorkflowErr ? (err as { code: string }).code : undefined,
+    });
+  }
+});
+
 // GET /api/v1/claims/:id/documents
 app.get('/api/v1/claims/:id/documents', requireAuth, (req, res) => {
   const claimId = req.params.id;
@@ -222,10 +281,12 @@ app.listen(PORT, () => {
   console.log('  POST  /api/v1/claims          (+ AI assessment & compliance when extended fields provided)');
   console.log('  GET   /api/v1/claims');
   console.log('  GET   /api/v1/claims/:id');
+  console.log('  GET   /api/v1/claims/:id/workflow   (Ch14 workflow state + audit trail)');
+  console.log('  POST  /api/v1/claims/:id/transition (Ch14 manual workflow advance)');
   console.log('  POST  /api/v1/claims/:id/documents');
   console.log('  GET   /api/v1/claims/:id/documents');
   console.log('─'.repeat(50));
-  console.log('  Pipeline: Ch11 ClaimAssessmentAgent + Ch12 RuleEngine');
+  console.log('  Pipeline: Ch11 ClaimAssessmentAgent + Ch12 RuleEngine + Ch14 WorkflowEngine');
   console.log(`  Simulated 503 failure rate: ${(FAILURE_RATE * 100).toFixed(0)}%\n`);
 });
 

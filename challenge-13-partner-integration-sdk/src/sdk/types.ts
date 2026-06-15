@@ -55,6 +55,16 @@ export interface ComplianceResult {
   }>;
 }
 
+export type ClaimWorkflowState =
+  | 'SUBMITTED'
+  | 'DOCUMENTS_VERIFIED'
+  | 'UNDER_ASSESSMENT'
+  | 'PENDING_INFO'
+  | 'APPROVED'
+  | 'REJECTED'
+  | 'PAYMENT_INITIATED'
+  | 'CLOSED';
+
 export interface Claim {
   id: string;
   policyId: string;
@@ -70,6 +80,8 @@ export interface Claim {
   // Present when the claim was created with extended pipeline fields
   assessment?: AssessmentResult;
   compliance?: ComplianceResult;
+  // Ch14 workflow state — populated for all claims
+  workflowState?: ClaimWorkflowState;
 }
 
 export interface ListClaimsInput {
