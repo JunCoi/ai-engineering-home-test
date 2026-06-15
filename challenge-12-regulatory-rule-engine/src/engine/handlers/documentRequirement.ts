@@ -1,5 +1,4 @@
-import type { Claim } from '../../types/claim.js';
-import type { DocumentType } from '../../../../shared/src/types/index.js';
+import type { Claim, DocumentType } from '../../types/claim.js';
 import type { Rule, RuleResult } from '../../types/rule.js';
 import { ruleApplies } from '../helpers.js';
 
