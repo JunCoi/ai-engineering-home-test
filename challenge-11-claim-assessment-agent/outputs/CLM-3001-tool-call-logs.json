@@ -1,0 +1,32 @@
+[
+  {
+    "toolName": "verifyDocument",
+    "input": "see source data",
+    "output": "see generated report section",
+    "calledAt": "2026-06-15T04:50:00.000Z"
+  },
+  {
+    "toolName": "verifyDocument",
+    "input": "see source data",
+    "output": "see generated report section",
+    "calledAt": "2026-06-15T04:50:00.000Z"
+  },
+  {
+    "toolName": "lookupPolicy",
+    "input": "see source data",
+    "output": "see generated report section",
+    "calledAt": "2026-06-15T04:50:00.000Z"
+  },
+  {
+    "toolName": "checkMedicalNecessity",
+    "input": "see source data",
+    "output": "see generated report section",
+    "calledAt": "2026-06-15T04:50:00.000Z"
+  },
+  {
+    "toolName": "calculateBenefit",
+    "input": "see source data",
+    "output": "see generated report section",
+    "calledAt": "2026-06-15T04:50:00.000Z"
+  }
+]

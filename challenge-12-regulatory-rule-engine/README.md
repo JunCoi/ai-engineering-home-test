@@ -11,16 +11,6 @@ A configurable regulatory rule engine for insurance claims. Country rules are st
 - Zod schema validation
 - Vitest tests
 
-## Estimated Timeline
-
-Estimated timeline: **5–6 hours**
-
-- 45–60 minutes: rule schema design and project setup
-- 2 hours: rule engine implementation
-- 1 hour: country configs and test claims
-- 1 hour: CLI, rule diff, rule versioning, and tests
-- 30–60 minutes: documentation, sample output, and cleanup
-
 ## Install
 
 ```bash
@@ -38,7 +28,7 @@ npm run validate
 Validate one claim:
 
 ```bash
-npm run dev -- validate --claims data/test-claims.json --claim-id VN-001
+npm run dev -- validate --claims data/test-claims.json --claim-id TH-001
 ```
 
 View rules:
