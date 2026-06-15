@@ -1,72 +1,72 @@
 country: Thailand
-country_code: thailand
+countryCode: thailand
 rules:
-  - rule_id: TH-DOC-001
+  - ruleId: TH-DOC-001
     description: Medical receipt is required for all claims
-    rule_type: document_requirement
-    effective_date: "2024-01-01"
+    ruleType: DOCUMENT_REQUIREMENT
+    effectiveDate: "2024-01-01"
     parameters:
-      required_documents: [medical_receipt]
-  - rule_id: TH-DOC-002
-    description: Discharge summary is required for inpatient claims
-    rule_type: document_requirement
-    effective_date: "2024-01-01"
+      requiredDocuments: [MEDICAL_RECEIPT]
+  - ruleId: TH-DOC-002
+    description: Discharge summary is required for INPATIENT claims
+    ruleType: DOCUMENT_REQUIREMENT
+    effectiveDate: "2024-01-01"
     parameters:
-      required_documents: [discharge_summary]
-      applies_to:
-        claim_types: [inpatient]
-  - rule_id: TH-DOC-003
-    description: Prescription is required for outpatient claims
-    rule_type: document_requirement
-    effective_date: "2024-01-01"
+      requiredDocuments: [DISCHARGE_SUMMARY]
+      appliesTo:
+        claimTypes: [INPATIENT]
+  - ruleId: TH-DOC-003
+    description: Prescription is required for OUTPATIENT claims
+    ruleType: DOCUMENT_REQUIREMENT
+    effectiveDate: "2024-01-01"
     parameters:
-      required_documents: [prescription]
-      applies_to:
-        claim_types: [outpatient]
-  - rule_id: TH-SLA-OUT-001
+      requiredDocuments: [PRESCRIPTION]
+      appliesTo:
+        claimTypes: [OUTPATIENT]
+  - ruleId: TH-SLA-OUT-001
     description: Outpatient claims must be processed within 15 business days
-    rule_type: sla_check
-    effective_date: "2024-01-01"
+    ruleType: SLA_CHECK
+    effectiveDate: "2024-01-01"
     parameters:
-      max_business_days: 15
-      applies_to:
-        claim_types: [outpatient]
-  - rule_id: TH-SLA-IN-001
+      maxBusinessDays: 15
+      appliesTo:
+        claimTypes: [OUTPATIENT]
+  - ruleId: TH-SLA-IN-001
     description: Inpatient claims must be processed within 30 business days
-    rule_type: sla_check
-    effective_date: "2024-01-01"
+    ruleType: SLA_CHECK
+    effectiveDate: "2024-01-01"
     parameters:
-      max_business_days: 30
-      applies_to:
-        claim_types: [inpatient]
-  - rule_id: TH-WAIT-GEN-001
+      maxBusinessDays: 30
+      appliesTo:
+        claimTypes: [INPATIENT]
+  - ruleId: TH-WAIT-GEN-001
     description: General claims require a 30-day waiting period
-    rule_type: waiting_period
-    effective_date: "2024-01-01"
+    ruleType: WAITING_PERIOD
+    effectiveDate: "2024-01-01"
     parameters:
-      minimum_policy_age_days: 30
-      applies_to:
-        condition_types: [general]
-  - rule_id: TH-WAIT-PEC-001
+      minimumPolicyAgeDays: 30
+      appliesTo:
+        conditionTypes: [GENERAL]
+  - ruleId: TH-WAIT-PEC-001
     description: Pre-existing condition claims require a 120-day waiting period
-    rule_type: waiting_period
-    effective_date: "2024-01-01"
+    ruleType: WAITING_PERIOD
+    effectiveDate: "2024-01-01"
     parameters:
-      minimum_policy_age_days: 120
-      applies_to:
-        condition_types: [pre_existing]
-  - rule_id: TH-MASK-001
+      minimumPolicyAgeDays: 120
+      appliesTo:
+        conditionTypes: [PRE_EXISTING]
+  - ruleId: TH-MASK-001
     description: National ID must show last 4 digits only in external reports
-    rule_type: data_masking
-    effective_date: "2024-01-01"
+    ruleType: DATA_MASKING
+    effectiveDate: "2024-01-01"
     parameters:
-      field: national_id
-      report_context: external
-  - rule_id: TH-COV-001
+      field: nationalId
+      reportContext: external
+  - ruleId: TH-COV-001
     description: Emergency treatment must be covered regardless of network
-    rule_type: coverage_mandate
-    effective_date: "2024-01-01"
+    ruleType: COVERAGE_MANDATE
+    effectiveDate: "2024-01-01"
     parameters:
-      required_coverage_level: partial
-      applies_to:
-        treatment_types: [emergency]
+      requiredCoverageLevel: PARTIAL
+      appliesTo:
+        treatmentTypes: [EMERGENCY]

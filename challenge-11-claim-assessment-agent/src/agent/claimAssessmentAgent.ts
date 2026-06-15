@@ -20,7 +20,7 @@ function clause(policy: Policy, title: string): string {
 function findMissingRequiredDocuments(claim: Claim, reviews: DocumentReviewItem[]): DocumentReviewItem[] {
   return claim.requiredDocumentTypes.flatMap((requiredType) => {
     const matching = reviews.find(
-      (review) => review.expectedType === requiredType && review.actualType === requiredType && review.status === "complete"
+      (review) => review.expectedType === requiredType && review.actualType === requiredType && review.status === "COMPLETE"
     );
 
     if (matching) return [];
@@ -31,7 +31,7 @@ function findMissingRequiredDocuments(claim: Claim, reviews: DocumentReviewItem[
     return [{
       documentId: `missing-${requiredType}`,
       expectedType: requiredType,
-      status: "missing" as const,
+      status: "MISSING" as const,
       issues: [`Missing required document: ${requiredType}`]
     }];
   });
@@ -61,6 +61,10 @@ export class ClaimAssessmentAgent {
 
     // Required order step 4: calculate benefits.
     const benefitResult = calculateBenefit(claim.policyId, claim.claimType, claim.amount, context);
+    const currentBenefit = policy.benefits[claim.claimType];
+    if (!currentBenefit) {
+      throw new Error(`Benefit config not found for ${claim.claimType} in policy ${policy.policyId}`);
+    }
 
     const coveragePeriodClause = clause(policy, "Coverage Period");
     const medicalNecessityClause = clause(policy, "Medical Necessity");
@@ -69,7 +73,7 @@ export class ClaimAssessmentAgent {
       : clause(policy, "Specialist Benefit");
     const limitClause = clause(policy, "Benefit Limit") !== "UNKNOWN_CLAUSE"
       ? clause(policy, "Benefit Limit")
-      : clause(policy, claim.claimType === "specialist" ? "Specialist Benefit" : "Outpatient Benefit");
+      : clause(policy, claim.claimType === "SPECIALIST" ? "Specialist Benefit" : "Outpatient Benefit");
     const exclusionClause = clause(policy, "Exclusions");
 
     const reasoning: string[] = [];
@@ -122,7 +126,7 @@ export class ClaimAssessmentAgent {
     return {
       claimId: claim.claimId,
       recommendation,
-      documentReview: [...documentReviews, ...missingOrInvalidRequiredDocuments.filter((item) => item.status === "missing")],
+      documentReview: [...documentReviews, ...missingOrInvalidRequiredDocuments.filter((item) => item.status === "MISSING")],
       policyVerification: {
         policyActive,
         memberCovered,
@@ -144,7 +148,7 @@ export class ClaimAssessmentAgent {
         coveredAmount: recommendation === "APPROVE" ? benefitResult.coveredAmount : 0,
         copay: recommendation === "APPROVE" ? benefitResult.copay : 0,
         memberResponsibility: recommendation === "APPROVE" ? benefitResult.memberResponsibility : claim.amount,
-        remainingLimitAfterClaim: recommendation === "APPROVE" ? benefitResult.remainingLimitAfterClaim : policy.benefits[claim.claimType].remainingLimit,
+        remainingLimitAfterClaim: recommendation === "APPROVE" ? benefitResult.remainingLimitAfterClaim : currentBenefit.remainingLimit,
         citations: [limitClause]
       },
       reasoning,

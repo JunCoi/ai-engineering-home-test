@@ -4,16 +4,16 @@
   "documentReview": [
     {
       "documentId": "DOC-3001-RECEIPT",
-      "expectedType": "medical_receipt",
-      "actualType": "medical_receipt",
-      "status": "complete",
+      "expectedType": "MEDICAL_RECEIPT",
+      "actualType": "MEDICAL_RECEIPT",
+      "status": "COMPLETE",
       "issues": []
     },
     {
       "documentId": "DOC-3001-REFERRAL-WRONG",
-      "expectedType": "referral_letter",
-      "actualType": "appointment_slip",
-      "status": "wrong_type",
+      "expectedType": "REFERRAL_LETTER",
+      "actualType": "APPOINTMENT_SLIP",
+      "status": "WRONG_TYPE",
       "issues": [
         "Submitted document is an appointment slip, not a referral letter"
       ]

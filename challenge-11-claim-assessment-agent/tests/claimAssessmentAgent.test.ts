@@ -27,7 +27,7 @@ describe("ClaimAssessmentAgent", () => {
   it("requests more info for missing or wrong required documents", () => {
     const report = agent.assess(claims[2]);
     expect(report.recommendation).toBe("REQUEST_MORE_INFO");
-    expect(report.documentReview.some((doc) => doc.status === "wrong_type")).toBe(true);
+    expect(report.documentReview.some((doc) => doc.status === "WRONG_TYPE")).toBe(true);
   });
 
   it("checks every submitted document", () => {

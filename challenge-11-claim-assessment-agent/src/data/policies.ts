@@ -7,14 +7,14 @@ export const policies: Policy[] = [
     memberName: "An Nguyen",
     activeFrom: "2026-01-01",
     activeTo: "2026-12-31",
-    coveredClaimTypes: ["outpatient", "inpatient", "specialist"],
-    exclusions: ["cosmetic_treatment", "experimental_treatment"],
+    coveredClaimTypes: ["OUTPATIENT", "INPATIENT", "SPECIALIST"],
+    exclusions: ["COSMETIC_TREATMENT", "EXPERIMENTAL_TREATMENT"],
     waitingPeriods: { general: 30 },
     benefits: {
-      outpatient: { annualLimit: 2000, remainingLimit: 1500, copayPercent: 10, requiresMedicalNecessity: true },
-      inpatient: { annualLimit: 20000, remainingLimit: 18000, copayPercent: 5, requiresMedicalNecessity: true },
-      specialist: { annualLimit: 3000, remainingLimit: 2200, copayPercent: 20, requiresMedicalNecessity: true },
-      dental: { annualLimit: 0, remainingLimit: 0, copayPercent: 100, requiresMedicalNecessity: false }
+      OUTPATIENT: { annualLimit: 2000, remainingLimit: 1500, copayPercent: 10, requiresMedicalNecessity: true },
+      INPATIENT: { annualLimit: 20000, remainingLimit: 18000, copayPercent: 5, requiresMedicalNecessity: true },
+      SPECIALIST: { annualLimit: 3000, remainingLimit: 2200, copayPercent: 20, requiresMedicalNecessity: true },
+      DENTAL: { annualLimit: 0, remainingLimit: 0, copayPercent: 100, requiresMedicalNecessity: false }
     },
     clauses: [
       { clauseId: "POL-1001-C1", title: "Coverage Period", text: "Coverage is valid from 2026-01-01 to 2026-12-31 for member MBR-001." },
@@ -29,14 +29,14 @@ export const policies: Policy[] = [
     memberName: "Binh Tran",
     activeFrom: "2026-01-01",
     activeTo: "2026-12-31",
-    coveredClaimTypes: ["outpatient", "inpatient"],
-    exclusions: ["cosmetic_treatment", "experimental_treatment"],
+    coveredClaimTypes: ["OUTPATIENT", "INPATIENT"],
+    exclusions: ["COSMETIC_TREATMENT", "EXPERIMENTAL_TREATMENT"],
     waitingPeriods: { general: 30 },
     benefits: {
-      outpatient: { annualLimit: 1000, remainingLimit: 700, copayPercent: 15, requiresMedicalNecessity: true },
-      inpatient: { annualLimit: 10000, remainingLimit: 8000, copayPercent: 10, requiresMedicalNecessity: true },
-      specialist: { annualLimit: 0, remainingLimit: 0, copayPercent: 100, requiresMedicalNecessity: false },
-      dental: { annualLimit: 0, remainingLimit: 0, copayPercent: 100, requiresMedicalNecessity: false }
+      OUTPATIENT: { annualLimit: 1000, remainingLimit: 700, copayPercent: 15, requiresMedicalNecessity: true },
+      INPATIENT: { annualLimit: 10000, remainingLimit: 8000, copayPercent: 10, requiresMedicalNecessity: true },
+      SPECIALIST: { annualLimit: 0, remainingLimit: 0, copayPercent: 100, requiresMedicalNecessity: false },
+      DENTAL: { annualLimit: 0, remainingLimit: 0, copayPercent: 100, requiresMedicalNecessity: false }
     },
     clauses: [
       { clauseId: "POL-2001-C1", title: "Coverage Period", text: "Coverage is valid from 2026-01-01 to 2026-12-31 for member MBR-002." },
@@ -51,14 +51,14 @@ export const policies: Policy[] = [
     memberName: "Chi Le",
     activeFrom: "2026-01-01",
     activeTo: "2026-12-31",
-    coveredClaimTypes: ["outpatient", "specialist"],
-    exclusions: ["cosmetic_treatment"],
+    coveredClaimTypes: ["OUTPATIENT", "SPECIALIST"],
+    exclusions: ["COSMETIC_TREATMENT"],
     waitingPeriods: { general: 30 },
     benefits: {
-      outpatient: { annualLimit: 1800, remainingLimit: 1600, copayPercent: 10, requiresMedicalNecessity: true },
-      specialist: { annualLimit: 2500, remainingLimit: 2000, copayPercent: 20, requiresMedicalNecessity: true },
-      inpatient: { annualLimit: 0, remainingLimit: 0, copayPercent: 100, requiresMedicalNecessity: false },
-      dental: { annualLimit: 0, remainingLimit: 0, copayPercent: 100, requiresMedicalNecessity: false }
+      OUTPATIENT: { annualLimit: 1800, remainingLimit: 1600, copayPercent: 10, requiresMedicalNecessity: true },
+      SPECIALIST: { annualLimit: 2500, remainingLimit: 2000, copayPercent: 20, requiresMedicalNecessity: true },
+      INPATIENT: { annualLimit: 0, remainingLimit: 0, copayPercent: 100, requiresMedicalNecessity: false },
+      DENTAL: { annualLimit: 0, remainingLimit: 0, copayPercent: 100, requiresMedicalNecessity: false }
     },
     clauses: [
       { clauseId: "POL-3001-C1", title: "Coverage Period", text: "Coverage is valid from 2026-01-01 to 2026-12-31 for member MBR-003." },

@@ -12,9 +12,9 @@ program
   .command('validate')
   .requiredOption('--claims <path>', 'Path to claims JSON file')
   .option('--claim-id <claimId>', 'Validate only one claim')
-  .action((options) => {
+  .action((options: { claims: string; claimId?: string }) => {
     const claims = JSON.parse(fs.readFileSync(options.claims, 'utf8')) as Claim[];
-    const selectedClaims = options.claimId ? claims.filter((claim) => claim.claim_id === options.claimId) : claims;
+    const selectedClaims = options.claimId ? claims.filter((claim) => claim.claimId === options.claimId) : claims;
     const engine = new RuleEngine();
     console.log(JSON.stringify(selectedClaims.map((claim) => engine.validateClaim(claim)), null, 2));
   });
@@ -22,7 +22,7 @@ program
 program
   .command('rules')
   .requiredOption('--country <countryCode>', 'Country config code, e.g. thailand')
-  .action((options) => {
+  .action((options: { country: string }) => {
     console.log(JSON.stringify(loadCountryConfig(options.country), null, 2));
   });
 
@@ -30,7 +30,7 @@ program
   .command('diff')
   .requiredOption('--country-a <countryCode>')
   .requiredOption('--country-b <countryCode>')
-  .action((options) => {
+  .action((options: { countryA: string; countryB: string }) => {
     console.log(JSON.stringify(diffCountries(options.countryA, options.countryB), null, 2));
   });
 

@@ -33,3 +33,12 @@ A configurable multi-country regulatory rule engine where country-specific insur
 Located in `/challenge-11-claim-assessment-agent`.
 
 This challenge implements a TypeScript claim assessment agent with four traceable tools: document verification, policy lookup, medical necessity check, and benefit calculation.
+
+## Shared Types
+
+Common insurance/domain types live in `/shared/src/types`. Challenge projects import from this folder so values stay consistent across the repo.
+
+Conventions:
+
+- Object properties use camelCase, for example `claimId`, `claimType`, `ruleType`.
+- Enum-like values use uppercase strings, for example `OUTPATIENT`, `MEDICAL_RECEIPT`, `DOCUMENT_REQUIREMENT`.

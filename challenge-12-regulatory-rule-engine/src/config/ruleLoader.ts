@@ -19,16 +19,16 @@ export function loadCountryConfig(countryCode: string): CountryConfig {
 export function loadAllCountryConfigs(): CountryConfig[] {
   return fs
     .readdirSync(CONFIG_DIR)
-    .filter((file) => file.endsWith('.yaml') && !file.includes('skeleton'))
-    .map((file) => loadCountryConfig(file.replace('.yaml', '')));
+    .filter((file: string) => file.endsWith('.yaml') && !file.includes('skeleton'))
+    .map((file: string) => loadCountryConfig(file.replace('.yaml', '')));
 }
 
 export function getActiveRules(config: CountryConfig, submissionDate: string): Rule[] {
   const submittedAt = new Date(submissionDate);
 
   return config.rules.filter((rule) => {
-    const effectiveDate = new Date(rule.effective_date);
-    const expiryDate = rule.expiry_date ? new Date(rule.expiry_date) : undefined;
+    const effectiveDate = new Date(rule.effectiveDate);
+    const expiryDate = rule.expiryDate ? new Date(rule.expiryDate) : undefined;
     return submittedAt >= effectiveDate && (!expiryDate || submittedAt <= expiryDate);
   });
 }

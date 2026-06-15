@@ -2,8 +2,8 @@ import type { ToolContext } from "../types/domain.js";
 import { logToolCall } from "./toolLogger.js";
 
 const medicallySupportedProcedures: Record<string, string[]> = {
-  "acute bronchitis": ["doctor_consultation", "standard_medication"],
-  "persistent knee pain": ["specialist_consultation", "x_ray", "physiotherapy"],
+  "acute bronchitis": ["DOCTOR_CONSULTATION", "STANDARD_MEDICATION"],
+  "persistent knee pain": ["SPECIALIST_CONSULTATION", "X_RAY", "PHYSIOTHERAPY"],
   "cosmetic skin resurfacing": []
 };
 

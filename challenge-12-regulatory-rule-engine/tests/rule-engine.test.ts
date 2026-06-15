@@ -13,12 +13,12 @@ describe('RuleEngine', () => {
   });
 
   it('passes a fully compliant Thailand claim', () => {
-    const result = engine.validateClaim(claims.find((claim) => claim.claim_id === 'TH-001')!);
-    expect(result.overall_status).toBe('COMPLIANT');
+    const result = engine.validateClaim(claims.find((claim) => claim.claimId === 'TH-001')!);
+    expect(result.overallStatus).toBe('COMPLIANT');
   });
 
-  it('detects missing inpatient document in Thailand', () => {
-    const result = engine.validateClaim(claims.find((claim) => claim.claim_id === 'TH-002')!);
-    expect(result.results.some((rule) => rule.status === 'FAIL' && rule.message.includes('discharge_summary'))).toBe(true);
+  it('detects missing INPATIENT document in Thailand', () => {
+    const result = engine.validateClaim(claims.find((claim) => claim.claimId === 'TH-002')!);
+    expect(result.results.some((rule) => rule.status === 'FAIL' && rule.message.includes('DISCHARGE_SUMMARY'))).toBe(true);
   });
 });

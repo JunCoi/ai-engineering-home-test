@@ -1,6 +1,7 @@
-export type ClaimType = "outpatient" | "inpatient" | "dental" | "specialist";
-export type Recommendation = "APPROVE" | "REJECT" | "REQUEST_MORE_INFO";
-export type DocumentStatus = "complete" | "incomplete" | "wrong_type" | "missing";
+import type { ClaimType, DocumentType, Recommendation } from "../../../shared/src/types/index.js";
+export type { ClaimType, DocumentType, Recommendation } from "../../../shared/src/types/index.js";
+
+export type DocumentStatus = "COMPLETE" | "INCOMPLETE" | "WRONG_TYPE" | "MISSING";
 
 export interface Claim {
   claimId: string;
@@ -13,15 +14,15 @@ export interface Claim {
   procedures: string[];
   treatmentDate: string;
   submittedDocumentIds: string[];
-  requiredDocumentTypes: string[];
+  requiredDocumentTypes: DocumentType[];
   expectedOutcome: Recommendation;
 }
 
 export interface DocumentRecord {
   documentId: string;
   claimId: string;
-  expectedType: string;
-  actualType: string;
+  expectedType: DocumentType;
+  actualType: DocumentType;
   isComplete: boolean;
   issues: string[];
 }
@@ -39,6 +40,8 @@ export interface BenefitConfig {
   requiresMedicalNecessity: boolean;
 }
 
+export type BenefitByClaimType = Partial<Record<ClaimType, BenefitConfig>>;
+
 export interface Policy {
   policyId: string;
   memberId: string;
@@ -46,7 +49,7 @@ export interface Policy {
   activeFrom: string;
   activeTo: string;
   coveredClaimTypes: ClaimType[];
-  benefits: Record<ClaimType, BenefitConfig>;
+  benefits: BenefitByClaimType;
   exclusions: string[];
   waitingPeriods: Record<string, number>;
   clauses: PolicyClause[];
@@ -65,8 +68,8 @@ export interface ToolContext {
 
 export interface DocumentReviewItem {
   documentId: string;
-  expectedType: string;
-  actualType?: string;
+  expectedType: DocumentType;
+  actualType?: DocumentType;
   status: DocumentStatus;
   issues: string[];
 }

@@ -55,31 +55,31 @@ Each country has one YAML file in `configs/`.
 
 ```yaml
 country: Thailand
-country_code: thailand
+countryCode: thailand
 rules:
-  - rule_id: TH-DOC-001
+  - ruleId: TH-DOC-001
     description: Medical receipt is required for all claims
-    rule_type: document_requirement
-    effective_date: "2024-01-01"
-    expiry_date:
+    ruleType: DOCUMENT_REQUIREMENT
+    effectiveDate: "2024-01-01"
+    expiryDate:
     parameters:
-      required_documents: [medical_receipt]
+      requiredDocuments: [MEDICAL_RECEIPT]
 ```
 
 ### Required rule fields
 
 | Field | Meaning |
 |---|---|
-| `rule_id` | Unique rule identifier |
+| `ruleId` | Unique rule identifier |
 | `description` | Human-readable rule description |
-| `rule_type` | One of the supported rule types |
-| `effective_date` | Date when the rule starts applying |
-| `expiry_date` | Optional date when the rule stops applying |
+| `ruleType` | One of the supported rule types |
+| `effectiveDate` | Date when the rule starts applying |
+| `expiryDate` | Optional date when the rule stops applying |
 | `parameters` | Rule-specific values |
 
 ## Supported Rule Types
 
-### `document_requirement`
+### `DOCUMENT_REQUIREMENT`
 
 Checks that required documents are present.
 
@@ -87,50 +87,50 @@ Example:
 
 ```yaml
 parameters:
-  required_documents: [medical_receipt, discharge_summary]
-  applies_to:
-    claim_types: [inpatient]
+  requiredDocuments: [MEDICAL_RECEIPT, DISCHARGE_SUMMARY]
+  appliesTo:
+    claimTypes: [INPATIENT]
 ```
 
-### `sla_check`
+### `SLA_CHECK`
 
 Checks whether processing finished within allowed business days.
 
 ```yaml
 parameters:
-  max_business_days: 15
+  maxBusinessDays: 15
 ```
 
-### `waiting_period`
+### `WAITING_PERIOD`
 
 Checks policy age against a required waiting period.
 
 ```yaml
 parameters:
-  minimum_policy_age_days: 120
-  applies_to:
-    condition_types: [pre_existing]
+  minimumPolicyAgeDays: 120
+  appliesTo:
+    conditionTypes: [PRE_EXISTING]
 ```
 
-### `data_masking`
+### `DATA_MASKING`
 
 Checks whether sensitive data is masked correctly in reports.
 
 ```yaml
 parameters:
-  field: national_id
-  report_context: external
+  field: nationalId
+  reportContext: external
 ```
 
-### `coverage_mandate`
+### `COVERAGE_MANDATE`
 
 Checks whether mandatory coverage was respected.
 
 ```yaml
 parameters:
-  required_coverage_level: same_as_physical
-  applies_to:
-    treatment_types: [mental_health]
+  requiredCoverageLevel: SAME_AS_PHYSICAL
+  appliesTo:
+    treatmentTypes: [MENTAL_HEALTH]
 ```
 
 ## Adding a New Country
@@ -151,15 +151,15 @@ configs/singapore.skeleton.yaml
 
 ## Rule Versioning
 
-The engine filters rules by the claim `submission_date`.
+The engine filters rules by the claim `submissionDate`.
 
 A rule applies only when:
 
 ```txt
-effective_date <= submission_date <= expiry_date
+effectiveDate <= submissionDate <= expiryDate
 ```
 
-If `expiry_date` is empty, the rule remains active after `effective_date`.
+If `expiryDate` is empty, the rule remains active after `effectiveDate`.
 
 ## Output Status
 
@@ -178,3 +178,8 @@ Overall claim status is:
 ## AI Tool Usage
 
 I used AI coding tools to decompose the problem into rule schema, handlers, config loading, CLI commands, tests, and documentation. The country-specific regulatory logic is intentionally kept in YAML configuration, while the TypeScript code only implements generic rule behavior.
+
+
+## Shared type conventions
+
+This challenge imports common domain types from `../shared/src/types`. TypeScript properties use camelCase and enum-like values use uppercase strings, for example `claimType: "OUTPATIENT"` and `expectedType: "MEDICAL_RECEIPT"`.
