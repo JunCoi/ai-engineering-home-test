@@ -1,0 +1,26 @@
+{
+  "name": "regulatory-rule-engine",
+  "version": "1.0.0",
+  "description": "Configurable multi-country regulatory rule engine for insurance claims",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/cli.ts",
+    "validate": "tsx src/cli.ts validate --claims data/test-claims.json",
+    "rules": "tsx src/cli.ts rules --country thailand",
+    "diff": "tsx src/cli.ts diff --country-a thailand --country-b vietnam",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "date-fns": "^3.6.0",
+    "yaml": "^2.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  }
+}

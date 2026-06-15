@@ -1,0 +1,61 @@
+country: Vietnam
+country_code: vietnam
+rules:
+  - rule_id: VN-DOC-001
+    description: Medical receipt is required for all claims
+    rule_type: document_requirement
+    effective_date: "2024-01-01"
+    parameters:
+      required_documents: [medical_receipt]
+  - rule_id: VN-DOC-002
+    description: Hospital certificate is required for inpatient claims
+    rule_type: document_requirement
+    effective_date: "2024-01-01"
+    parameters:
+      required_documents: [hospital_certificate]
+      applies_to:
+        claim_types: [inpatient]
+  - rule_id: VN-DOC-003
+    description: ID card copy is required for all claims
+    rule_type: document_requirement
+    effective_date: "2024-01-01"
+    parameters:
+      required_documents: [id_card_copy]
+  - rule_id: VN-SLA-001
+    description: All claims must be processed within 10 business days
+    rule_type: sla_check
+    effective_date: "2024-01-01"
+    parameters:
+      max_business_days: 10
+  - rule_id: VN-WAIT-GEN-001
+    description: General claims require a 30-day waiting period
+    rule_type: waiting_period
+    effective_date: "2024-01-01"
+    parameters:
+      minimum_policy_age_days: 30
+      applies_to:
+        condition_types: [general]
+  - rule_id: VN-WAIT-PEC-001
+    description: Pre-existing condition claims require a 365-day waiting period
+    rule_type: waiting_period
+    effective_date: "2024-01-01"
+    parameters:
+      minimum_policy_age_days: 365
+      applies_to:
+        condition_types: [pre_existing]
+  - rule_id: VN-MASK-001
+    description: Full name must be masked in external reports
+    rule_type: data_masking
+    effective_date: "2024-01-01"
+    parameters:
+      field: full_name
+      report_context: external
+  - rule_id: VN-COV-001
+    description: Maternity must be covered for policies older than 12 months
+    rule_type: coverage_mandate
+    effective_date: "2024-01-01"
+    parameters:
+      minimum_policy_age_days: 365
+      required_coverage_level: partial
+      applies_to:
+        treatment_types: [maternity]

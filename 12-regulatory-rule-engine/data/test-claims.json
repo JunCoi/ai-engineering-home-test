@@ -1,0 +1,386 @@
+[
+  {
+    "claim_id": "TH-001",
+    "country_code": "thailand",
+    "claim_type": "outpatient",
+    "condition_type": "general",
+    "treatment_type": "normal",
+    "network_status": "in_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2024-04-01",
+    "documents": [
+      "medical_receipt",
+      "prescription"
+    ],
+    "processing_completed_date": "2024-07-10",
+    "coverage_level": "partial",
+    "patient": {
+      "full_name": "Somchai Prasert",
+      "national_id": "1234567890123"
+    },
+    "reports": {
+      "external": {
+        "national_id": "***-***-0123"
+      }
+    }
+  },
+  {
+    "claim_id": "TH-002",
+    "country_code": "thailand",
+    "claim_type": "inpatient",
+    "condition_type": "general",
+    "treatment_type": "normal",
+    "network_status": "in_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2024-04-01",
+    "documents": [
+      "medical_receipt"
+    ],
+    "processing_completed_date": "2024-07-10",
+    "coverage_level": "partial",
+    "patient": {
+      "full_name": "Anong Lee",
+      "national_id": "9999999912345"
+    },
+    "reports": {
+      "external": {
+        "national_id": "***-***-2345"
+      }
+    }
+  },
+  {
+    "claim_id": "TH-003",
+    "country_code": "thailand",
+    "claim_type": "outpatient",
+    "condition_type": "pre_existing",
+    "treatment_type": "normal",
+    "network_status": "in_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2024-05-01",
+    "documents": [
+      "medical_receipt",
+      "prescription"
+    ],
+    "processing_completed_date": "2024-07-30",
+    "coverage_level": "partial",
+    "patient": {
+      "full_name": "Kanya Wong",
+      "national_id": "8888888877777"
+    },
+    "reports": {
+      "external": {
+        "national_id": "8888888877777"
+      }
+    }
+  },
+  {
+    "claim_id": "TH-004",
+    "country_code": "thailand",
+    "claim_type": "outpatient",
+    "condition_type": "general",
+    "treatment_type": "emergency",
+    "network_status": "out_of_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2024-04-01",
+    "documents": [
+      "medical_receipt",
+      "prescription"
+    ],
+    "processing_completed_date": "2024-07-05",
+    "denial_reason": "out_of_network",
+    "coverage_level": "none",
+    "patient": {
+      "full_name": "Niran Chai",
+      "national_id": "7777777766666"
+    },
+    "reports": {
+      "external": {
+        "national_id": "***-***-6666"
+      }
+    }
+  },
+  {
+    "claim_id": "TH-005",
+    "country_code": "thailand",
+    "claim_type": "inpatient",
+    "condition_type": "pre_existing",
+    "treatment_type": "emergency",
+    "network_status": "out_of_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2023-01-01",
+    "documents": [
+      "medical_receipt",
+      "discharge_summary"
+    ],
+    "processing_completed_date": "2024-08-05",
+    "coverage_level": "full",
+    "patient": {
+      "full_name": "Mali Arun",
+      "national_id": "1231231299999"
+    },
+    "reports": {
+      "external": {
+        "national_id": "***-***-9999"
+      }
+    }
+  },
+  {
+    "claim_id": "VN-001",
+    "country_code": "vietnam",
+    "claim_type": "outpatient",
+    "condition_type": "general",
+    "treatment_type": "normal",
+    "network_status": "in_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2024-04-01",
+    "documents": [
+      "medical_receipt",
+      "id_card_copy"
+    ],
+    "processing_completed_date": "2024-07-08",
+    "coverage_level": "partial",
+    "patient": {
+      "full_name": "Nguyen Van An"
+    },
+    "reports": {
+      "external": {
+        "full_name": "N*** A***"
+      }
+    }
+  },
+  {
+    "claim_id": "VN-002",
+    "country_code": "vietnam",
+    "claim_type": "inpatient",
+    "condition_type": "general",
+    "treatment_type": "normal",
+    "network_status": "in_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2024-04-01",
+    "documents": [
+      "medical_receipt",
+      "id_card_copy"
+    ],
+    "processing_completed_date": "2024-07-08",
+    "coverage_level": "partial",
+    "patient": {
+      "full_name": "Tran Thi Binh"
+    },
+    "reports": {
+      "external": {
+        "full_name": "T*** B***"
+      }
+    }
+  },
+  {
+    "claim_id": "VN-003",
+    "country_code": "vietnam",
+    "claim_type": "outpatient",
+    "condition_type": "pre_existing",
+    "treatment_type": "normal",
+    "network_status": "in_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2024-01-01",
+    "documents": [
+      "medical_receipt",
+      "id_card_copy"
+    ],
+    "processing_completed_date": "2024-07-25",
+    "coverage_level": "partial",
+    "patient": {
+      "full_name": "Le Minh Chau"
+    },
+    "reports": {
+      "external": {
+        "full_name": "Le Minh Chau"
+      }
+    }
+  },
+  {
+    "claim_id": "VN-004",
+    "country_code": "vietnam",
+    "claim_type": "outpatient",
+    "condition_type": "general",
+    "treatment_type": "maternity",
+    "network_status": "in_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2023-01-01",
+    "documents": [
+      "medical_receipt",
+      "id_card_copy"
+    ],
+    "processing_completed_date": "2024-07-05",
+    "denial_reason": "maternity_excluded",
+    "coverage_level": "none",
+    "patient": {
+      "full_name": "Pham Thu Dung"
+    },
+    "reports": {
+      "external": {
+        "full_name": "P*** D***"
+      }
+    }
+  },
+  {
+    "claim_id": "VN-005",
+    "country_code": "vietnam",
+    "claim_type": "inpatient",
+    "condition_type": "pre_existing",
+    "treatment_type": "maternity",
+    "network_status": "in_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2022-01-01",
+    "documents": [
+      "medical_receipt",
+      "id_card_copy",
+      "hospital_certificate"
+    ],
+    "processing_completed_date": "2024-07-08",
+    "coverage_level": "full",
+    "patient": {
+      "full_name": "Hoang Mai Linh"
+    },
+    "reports": {
+      "external": {
+        "full_name": "H*** L***"
+      }
+    }
+  },
+  {
+    "claim_id": "HK-001",
+    "country_code": "hong-kong",
+    "claim_type": "specialist",
+    "condition_type": "general",
+    "treatment_type": "normal",
+    "network_status": "in_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2024-01-01",
+    "documents": [
+      "medical_receipt",
+      "referral_letter"
+    ],
+    "processing_completed_date": "2024-07-15",
+    "coverage_level": "partial",
+    "patient": {
+      "full_name": "Chan Tai Man",
+      "hkid": "A123456(7)"
+    },
+    "reports": {
+      "external": {
+        "hkid": "A******7"
+      }
+    }
+  },
+  {
+    "claim_id": "HK-002",
+    "country_code": "hong-kong",
+    "claim_type": "specialist",
+    "condition_type": "general",
+    "treatment_type": "normal",
+    "network_status": "in_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2024-01-01",
+    "documents": [
+      "medical_receipt"
+    ],
+    "processing_completed_date": "2024-07-15",
+    "coverage_level": "partial",
+    "patient": {
+      "full_name": "Wong Mei Ling",
+      "hkid": "B765432(1)"
+    },
+    "reports": {
+      "external": {
+        "hkid": "B******1"
+      }
+    }
+  },
+  {
+    "claim_id": "HK-003",
+    "country_code": "hong-kong",
+    "claim_type": "inpatient",
+    "condition_type": "pre_existing",
+    "treatment_type": "normal",
+    "network_status": "in_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2024-03-01",
+    "documents": [
+      "medical_receipt",
+      "discharge_summary"
+    ],
+    "processing_completed_date": "2024-08-15",
+    "coverage_level": "partial",
+    "patient": {
+      "full_name": "Lee Ka Ho",
+      "hkid": "C111111(2)"
+    },
+    "reports": {
+      "external": {
+        "hkid": "C111111(2)"
+      }
+    }
+  },
+  {
+    "claim_id": "HK-004",
+    "country_code": "hong-kong",
+    "claim_type": "outpatient",
+    "condition_type": "general",
+    "treatment_type": "mental_health",
+    "network_status": "in_network",
+    "submission_date": "2024-05-15",
+    "treatment_date": "2024-05-01",
+    "policy_start_date": "2024-01-01",
+    "documents": [
+      "medical_receipt"
+    ],
+    "processing_completed_date": "2024-05-20",
+    "coverage_level": "partial",
+    "patient": {
+      "full_name": "Ho Wing Yan",
+      "hkid": "D222222(3)"
+    },
+    "reports": {
+      "external": {
+        "hkid": "D******3"
+      }
+    }
+  },
+  {
+    "claim_id": "HK-005",
+    "country_code": "hong-kong",
+    "claim_type": "outpatient",
+    "condition_type": "general",
+    "treatment_type": "mental_health",
+    "network_status": "in_network",
+    "submission_date": "2024-07-01",
+    "treatment_date": "2024-06-20",
+    "policy_start_date": "2024-01-01",
+    "documents": [
+      "medical_receipt"
+    ],
+    "processing_completed_date": "2024-07-08",
+    "coverage_level": "partial",
+    "patient": {
+      "full_name": "Lam Wai Kit",
+      "hkid": "E333333(4)"
+    },
+    "reports": {
+      "external": {
+        "hkid": "E******4"
+      }
+    }
+  }
+]
