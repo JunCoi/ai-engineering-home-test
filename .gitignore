@@ -38,3 +38,6 @@ coverage/
 # temporary files
 tmp/
 temp/
+
+# Claude Code context file — local only
+CLAUDE.md
