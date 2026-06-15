@@ -6,7 +6,7 @@ This repository contains my submission for the AI Engineering home test.
 
 ```txt
 .
-├── challenge-12regulatory-rule-engine/   # AI Challenge 12 implementation
+├── challenge-12-regulatory-rule-engine/   # AI Challenge 12 implementation
 └── logical-questions/        # Written answers for logical questions
 ```
 
