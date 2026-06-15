@@ -1,0 +1,47 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test-challenge-11:
+    name: Test Challenge 11
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: challenge-11-claim-assessment-agent
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: challenge-11-claim-assessment-agent/package-lock.json
+
+      - run: npm ci
+      - run: npm test
+
+  test-challenge-12:
+    name: Test Challenge 12
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: challenge-12-regulatory-rule-engine
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: challenge-12-regulatory-rule-engine/package-lock.json
+
+      - run: npm ci
+      - run: npm test
