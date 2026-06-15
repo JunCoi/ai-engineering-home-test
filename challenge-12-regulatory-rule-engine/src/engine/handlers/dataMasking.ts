@@ -19,26 +19,26 @@ function hkidMasked(value: string): string {
 
 export function validateDataMasking(rule: Rule, claim: Claim): RuleResult {
   const field = String(rule.parameters.field);
-  const context = String(rule.parameters.report_context ?? 'external');
+  const context = String(rule.parameters.reportContext ?? 'external');
   const report = claim.reports?.[context as 'external' | 'internal'];
 
   if (!report) {
-    return { rule_id: rule.rule_id, rule_type: rule.rule_type, status: 'FAIL', message: `Missing ${context} report for data masking validation.`, remediation: `Generate a ${context} report with masked personal data.` };
+    return { ruleId: rule.ruleId, ruleType: rule.ruleType, status: 'FAIL', message: `Missing ${context} report for data masking validation.`, remediation: `Generate a ${context} report with masked personal data.` };
   }
 
   let expected: string;
-  if (field === 'national_id') expected = lastFourOnly(claim.patient.national_id ?? '');
-  else if (field === 'full_name') expected = firstLastInitial(claim.patient.full_name);
+  if (field === 'nationalId') expected = lastFourOnly(claim.patient.nationalId ?? '');
+  else if (field === 'fullName') expected = firstLastInitial(claim.patient.fullName);
   else if (field === 'hkid') expected = hkidMasked(claim.patient.hkid ?? '');
   else throw new Error(`Unsupported masking field: ${field}`);
 
   if (report[field] === expected) {
-    return { rule_id: rule.rule_id, rule_type: rule.rule_type, status: 'PASS', message: `${field} is correctly masked in ${context} report.` };
+    return { ruleId: rule.ruleId, ruleType: rule.ruleType, status: 'PASS', message: `${field} is correctly masked in ${context} report.` };
   }
 
   return {
-    rule_id: rule.rule_id,
-    rule_type: rule.rule_type,
+    ruleId: rule.ruleId,
+    ruleType: rule.ruleType,
     status: 'FAIL',
     message: `${field} is not correctly masked in ${context} report. Expected '${expected}'.`,
     remediation: `Mask ${field} according to the country rule before sharing the ${context} report.`,

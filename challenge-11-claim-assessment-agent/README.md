@@ -158,3 +158,8 @@ Estimated time: 6–8 hours
 ## AI Assistance Notes
 
 AI coding tools were used to help decompose the requirement, design the project structure, generate draft code, and prepare documentation. Final design decisions, review, and validation were performed by the author.
+
+
+## Shared type conventions
+
+This challenge imports common domain types from `../shared/src/types`. TypeScript properties use camelCase and enum-like values use uppercase strings, for example `claimType: "OUTPATIENT"` and `expectedType: "MEDICAL_RECEIPT"`.

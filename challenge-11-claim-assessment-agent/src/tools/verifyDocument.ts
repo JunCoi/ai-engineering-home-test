@@ -8,8 +8,8 @@ export function verifyDocument(documentId: string, context: ToolContext): Docume
   if (!document) {
     const output: DocumentReviewItem = {
       documentId,
-      expectedType: "unknown",
-      status: "missing",
+      expectedType: "UNKNOWN",
+      status: "MISSING",
       issues: [`Document not found: ${documentId}`]
     };
     logToolCall(context, "verifyDocument", { documentId }, output);
@@ -17,10 +17,10 @@ export function verifyDocument(documentId: string, context: ToolContext): Docume
   }
 
   const status = !document.isComplete
-    ? "incomplete"
+    ? "INCOMPLETE"
     : document.actualType !== document.expectedType
-      ? "wrong_type"
-      : "complete";
+      ? "WRONG_TYPE"
+      : "COMPLETE";
 
   const output: DocumentReviewItem = {
     documentId: document.documentId,

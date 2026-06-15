@@ -4,16 +4,16 @@
   "documentReview": [
     {
       "documentId": "DOC-2001-RECEIPT",
-      "expectedType": "medical_receipt",
-      "actualType": "medical_receipt",
-      "status": "complete",
+      "expectedType": "MEDICAL_RECEIPT",
+      "actualType": "MEDICAL_RECEIPT",
+      "status": "COMPLETE",
       "issues": []
     },
     {
       "documentId": "DOC-2001-DIAGNOSIS",
-      "expectedType": "diagnosis_note",
-      "actualType": "diagnosis_note",
-      "status": "complete",
+      "expectedType": "DIAGNOSIS_NOTE",
+      "actualType": "DIAGNOSIS_NOTE",
+      "status": "COMPLETE",
       "issues": []
     }
   ],

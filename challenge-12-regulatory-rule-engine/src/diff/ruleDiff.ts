@@ -9,19 +9,19 @@ export function diffCountries(countryA: string, countryB: string) {
   const ruleTypes = Array.from(new Set([...Object.keys(groupedA), ...Object.keys(groupedB)])).sort();
 
   return ruleTypes.map((ruleType) => ({
-    rule_type: ruleType,
-    country_a: a.country,
-    country_b: b.country,
+    ruleType: ruleType,
+    countryA: a.country,
+    countryB: b.country,
     differs: JSON.stringify(groupedA[ruleType] ?? []) !== JSON.stringify(groupedB[ruleType] ?? []),
-    rules_a: groupedA[ruleType] ?? [],
-    rules_b: groupedB[ruleType] ?? [],
+    rulesA: groupedA[ruleType] ?? [],
+    rulesB: groupedB[ruleType] ?? [],
   }));
 }
 
-function groupByType(rules: { rule_type: string; description: string; parameters: unknown }[]) {
+function groupByType(rules: { ruleType: string; description: string; parameters: unknown }[]) {
   return rules.reduce<Record<string, unknown[]>>((acc, rule) => {
-    acc[rule.rule_type] ??= [];
-    acc[rule.rule_type].push({ description: rule.description, parameters: rule.parameters });
+    acc[rule.ruleType] ??= [];
+    acc[rule.ruleType].push({ description: rule.description, parameters: rule.parameters });
     return acc;
   }, {});
 }

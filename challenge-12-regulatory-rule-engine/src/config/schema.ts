@@ -1,22 +1,22 @@
 import { z } from 'zod';
 
 export const ruleSchema = z.object({
-  rule_id: z.string(),
+  ruleId: z.string(),
   description: z.string(),
-  rule_type: z.enum([
-    'document_requirement',
-    'sla_check',
-    'waiting_period',
-    'data_masking',
-    'coverage_mandate',
+  ruleType: z.enum([
+    'DOCUMENT_REQUIREMENT',
+    'SLA_CHECK',
+    'WAITING_PERIOD',
+    'DATA_MASKING',
+    'COVERAGE_MANDATE',
   ]),
-  effective_date: z.string(),
-  expiry_date: z.string().optional(),
+  effectiveDate: z.string(),
+  expiryDate: z.string().optional(),
   parameters: z.record(z.unknown()),
 });
 
 export const countryConfigSchema = z.object({
   country: z.string(),
-  country_code: z.string(),
+  countryCode: z.string(),
   rules: z.array(ruleSchema),
 });

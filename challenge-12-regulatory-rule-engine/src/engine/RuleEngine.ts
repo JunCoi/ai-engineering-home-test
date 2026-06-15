@@ -8,35 +8,35 @@ import { validateSlaCheck } from './handlers/slaCheck.js';
 import { validateWaitingPeriod } from './handlers/waitingPeriod.js';
 
 export type ValidationOutput = {
-  claim_id: string;
+  claimId: string;
   country: string;
-  overall_status: OverallStatus;
+  overallStatus: OverallStatus;
   results: RuleResult[];
 };
 
 export class RuleEngine {
   validateClaim(claim: Claim): ValidationOutput {
-    const config = loadCountryConfig(claim.country_code);
-    const activeRules = getActiveRules(config, claim.submission_date);
+    const config = loadCountryConfig(claim.countryCode);
+    const activeRules = getActiveRules(config, claim.submissionDate);
     const results = activeRules.map((rule) => this.validateRule(rule, claim, config.country));
     const failed = results.filter((r) => r.status === 'FAIL').length;
     const passed = results.filter((r) => r.status === 'PASS').length;
 
-    let overall_status: OverallStatus = 'COMPLIANT';
-    if (failed > 0 && passed > 0) overall_status = 'PARTIALLY_COMPLIANT';
-    if (failed > 0 && passed === 0) overall_status = 'NON_COMPLIANT';
+    let overallStatus: OverallStatus = 'COMPLIANT';
+    if (failed > 0 && passed > 0) overallStatus = 'PARTIALLY_COMPLIANT';
+    if (failed > 0 && passed === 0) overallStatus = 'NON_COMPLIANT';
 
-    return { claim_id: claim.claim_id, country: config.country, overall_status, results };
+    return { claimId: claim.claimId, country: config.country, overallStatus, results };
   }
 
   private validateRule(rule: Rule, claim: Claim, countryName: string): RuleResult {
-    switch (rule.rule_type) {
-      case 'document_requirement': return validateDocumentRequirement(rule, claim, countryName);
-      case 'sla_check': return validateSlaCheck(rule, claim);
-      case 'waiting_period': return validateWaitingPeriod(rule, claim);
-      case 'data_masking': return validateDataMasking(rule, claim);
-      case 'coverage_mandate': return validateCoverageMandate(rule, claim, countryName);
-      default: throw new Error(`Unsupported rule type: ${(rule as Rule).rule_type}`);
+    switch (rule.ruleType) {
+      case 'DOCUMENT_REQUIREMENT': return validateDocumentRequirement(rule, claim, countryName);
+      case 'SLA_CHECK': return validateSlaCheck(rule, claim);
+      case 'WAITING_PERIOD': return validateWaitingPeriod(rule, claim);
+      case 'DATA_MASKING': return validateDataMasking(rule, claim);
+      case 'COVERAGE_MANDATE': return validateCoverageMandate(rule, claim, countryName);
+      default: throw new Error(`Unsupported rule type: ${(rule as Rule).ruleType}`);
     }
   }
 }

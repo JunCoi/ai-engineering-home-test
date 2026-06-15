@@ -1,10 +1,10 @@
 country: Singapore
-country_code: singapore
+countryCode: singapore
 rules:
-  - rule_id: SG-DOC-001
+  - ruleId: SG-DOC-001
     description: Example required document rule
-    rule_type: document_requirement
-    effective_date: "2024-01-01"
-    expiry_date:
+    ruleType: DOCUMENT_REQUIREMENT
+    effectiveDate: "2024-01-01"
+    expiryDate:
     parameters:
-      required_documents: [medical_receipt]
+      requiredDocuments: [MEDICAL_RECEIPT]

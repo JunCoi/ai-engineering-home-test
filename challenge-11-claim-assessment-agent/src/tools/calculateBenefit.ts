@@ -23,6 +23,10 @@ export function calculateBenefit(
   }
 
   const benefit = policy.benefits[claimType];
+  if (!benefit) {
+    throw new Error(`Benefit config not found for ${claimType} in policy ${policyId}`);
+  }
+
   const payableBeforeCopay = Math.min(amount, benefit.remainingLimit);
   const copay = Number((payableBeforeCopay * (benefit.copayPercent / 100)).toFixed(2));
   const coveredAmount = Number((payableBeforeCopay - copay).toFixed(2));

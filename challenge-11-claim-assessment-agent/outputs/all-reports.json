@@ -5,16 +5,16 @@
     "documentReview": [
       {
         "documentId": "DOC-1001-RECEIPT",
-        "expectedType": "medical_receipt",
-        "actualType": "medical_receipt",
-        "status": "complete",
+        "expectedType": "MEDICAL_RECEIPT",
+        "actualType": "MEDICAL_RECEIPT",
+        "status": "COMPLETE",
         "issues": []
       },
       {
         "documentId": "DOC-1001-DIAGNOSIS",
-        "expectedType": "diagnosis_note",
-        "actualType": "diagnosis_note",
-        "status": "complete",
+        "expectedType": "DIAGNOSIS_NOTE",
+        "actualType": "DIAGNOSIS_NOTE",
+        "status": "COMPLETE",
         "issues": []
       }
     ],
@@ -91,16 +91,16 @@
     "documentReview": [
       {
         "documentId": "DOC-2001-RECEIPT",
-        "expectedType": "medical_receipt",
-        "actualType": "medical_receipt",
-        "status": "complete",
+        "expectedType": "MEDICAL_RECEIPT",
+        "actualType": "MEDICAL_RECEIPT",
+        "status": "COMPLETE",
         "issues": []
       },
       {
         "documentId": "DOC-2001-DIAGNOSIS",
-        "expectedType": "diagnosis_note",
-        "actualType": "diagnosis_note",
-        "status": "complete",
+        "expectedType": "DIAGNOSIS_NOTE",
+        "actualType": "DIAGNOSIS_NOTE",
+        "status": "COMPLETE",
         "issues": []
       }
     ],
@@ -178,16 +178,16 @@
     "documentReview": [
       {
         "documentId": "DOC-3001-RECEIPT",
-        "expectedType": "medical_receipt",
-        "actualType": "medical_receipt",
-        "status": "complete",
+        "expectedType": "MEDICAL_RECEIPT",
+        "actualType": "MEDICAL_RECEIPT",
+        "status": "COMPLETE",
         "issues": []
       },
       {
         "documentId": "DOC-3001-REFERRAL-WRONG",
-        "expectedType": "referral_letter",
-        "actualType": "appointment_slip",
-        "status": "wrong_type",
+        "expectedType": "REFERRAL_LETTER",
+        "actualType": "APPOINTMENT_SLIP",
+        "status": "WRONG_TYPE",
         "issues": [
           "Submitted document is an appointment slip, not a referral letter"
         ]
