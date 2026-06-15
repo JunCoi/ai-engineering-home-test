@@ -22,6 +22,14 @@ Located in `/challenge-11-claim-assessment-agent`.
 
 A TypeScript AI agent that assesses insurance claims using four traceable tools: document verification, policy lookup, medical necessity check, and benefit calculation.
 
+```bash
+cd challenge-11-claim-assessment-agent
+npm install
+npm run assess     # run assessment on all seeded claims
+npm run assess:one # assess a single claim interactively
+npm test
+```
+
 ### Challenge 12 — Regulatory Rule Engine
 
 Located in `/challenge-12-regulatory-rule-engine`.
