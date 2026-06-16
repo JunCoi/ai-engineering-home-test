@@ -28,7 +28,7 @@ type ClaimTypesForm = Record<TenantClaimType, ClaimTypeForm>;
 function defaultClaimTypes(): ClaimTypesForm {
   return Object.fromEntries(
     TENANT_CLAIM_TYPES.map(t => [t, { enabled: false, requiredDocuments: [], optionalDocuments: [] }])
-  ) as ClaimTypesForm;
+  ) as unknown as ClaimTypesForm;
 }
 
 function configToForm(c: TenantConfig) {
@@ -163,7 +163,7 @@ export default function TenantForm() {
     e.preventDefault();
     setError('');
     const result = formToPayload(form);
-    if ('error' in result) { setError(result.error); return; }
+    if ('error' in result) { setError(result.error ?? ''); return; }
     setSaving(true);
     try {
       if (isEdit) {
