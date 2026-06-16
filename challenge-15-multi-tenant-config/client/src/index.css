@@ -139,16 +139,14 @@ tr:hover td { background: #fafbfc; }
 .approval-box .sub { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
 
 /* ── Diff ───────────────────────────────────────────────────── */
-.diff-header { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-bottom: 1px; }
-.diff-col-title { padding: 12px 16px; font-weight: 600; background: var(--surface); border: 1px solid var(--border); font-size: 0.9rem; }
-.diff-rows { display: flex; flex-direction: column; gap: 4px; }
-.diff-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
-.diff-cell { padding: 8px 12px; font-size: 0.82rem; background: var(--surface); }
-.diff-cell.changed-a { background: #fff7ed; }
-.diff-cell.changed-b { background: #f0fdf4; }
-.diff-cell.same { background: var(--bg); }
-.diff-path { font-size: 0.72rem; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
-.diff-val { font-family: monospace; word-break: break-all; }
+.diff-table { width: 100%; border-collapse: collapse; }
+.diff-table th { text-align: left; padding: 10px 14px; background: var(--bg); border-bottom: 2px solid var(--border); color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.diff-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; font-size: 0.875rem; }
+.diff-table tr:last-child td { border-bottom: none; }
+.diff-field-name { font-weight: 500; color: var(--text); }
+.diff-cell-a { background: #fff7ed; }
+.diff-cell-b { background: #f0fdf4; }
+.diff-val { font-family: monospace; font-size: 0.82rem; word-break: break-word; white-space: pre-wrap; color: var(--text); }
 .diff-summary { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; }
 .diff-empty { text-align: center; padding: 32px; color: var(--muted); font-size: 0.9rem; }
 
