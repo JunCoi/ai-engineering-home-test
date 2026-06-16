@@ -6,40 +6,8 @@ on:
       - master
 
 jobs:
-  detect-changes:
-    runs-on: ubuntu-latest
-    outputs:
-      ch11: ${{ steps.filter.outputs.ch11 }}
-      ch12: ${{ steps.filter.outputs.ch12 }}
-      ch13: ${{ steps.filter.outputs.ch13 }}
-      ch14: ${{ steps.filter.outputs.ch14 }}
-      ch15: ${{ steps.filter.outputs.ch15 }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            ch11:
-              - 'challenge-11-claim-assessment-agent/**'
-              - 'shared/**'
-            ch12:
-              - 'challenge-12-regulatory-rule-engine/**'
-              - 'shared/**'
-            ch13:
-              - 'challenge-13-partner-integration-sdk/**'
-              - 'shared/**'
-            ch14:
-              - 'challenge-14-workflow-orchestrator/**'
-              - 'shared/**'
-            ch15:
-              - 'challenge-15-multi-tenant-config/**'
-              - 'shared/**'
-
   test-challenge-11:
     name: Test Challenge 11
-    needs: detect-changes
-    if: needs.detect-changes.outputs.ch11 == 'true'
     runs-on: ubuntu-latest
 
     defaults:
@@ -60,8 +28,6 @@ jobs:
 
   test-challenge-12:
     name: Test Challenge 12
-    needs: detect-changes
-    if: needs.detect-changes.outputs.ch12 == 'true'
     runs-on: ubuntu-latest
 
     defaults:
@@ -82,8 +48,6 @@ jobs:
 
   test-challenge-13:
     name: Test Challenge 13
-    needs: detect-changes
-    if: needs.detect-changes.outputs.ch13 == 'true'
     runs-on: ubuntu-latest
 
     defaults:
@@ -104,8 +68,6 @@ jobs:
 
   test-challenge-14:
     name: Test Challenge 14
-    needs: detect-changes
-    if: needs.detect-changes.outputs.ch14 == 'true'
     runs-on: ubuntu-latest
 
     defaults:
@@ -126,8 +88,6 @@ jobs:
 
   test-challenge-15:
     name: Test Challenge 15
-    needs: detect-changes
-    if: needs.detect-changes.outputs.ch15 == 'true'
     runs-on: ubuntu-latest
 
     defaults:
