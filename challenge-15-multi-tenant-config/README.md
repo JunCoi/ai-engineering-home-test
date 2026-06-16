@@ -2,7 +2,7 @@
 
 A full-stack admin platform for per-tenant claim processing configuration. Each insurance company (tenant) defines its own claim types, approval tiers, notification channels, SLA targets, and custom fields — all via a UI, with zero code changes required to onboard a new tenant.
 
-**Live demo:** _add your Railway URL here_
+**Live demo:** https://ai-engineering-home-test-production.up.railway.app/
 
 ## Architecture
 
