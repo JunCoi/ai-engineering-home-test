@@ -14,6 +14,7 @@ import {
 } from '../storage/tenantStore.js';
 import { processClaim, diffConfigs } from '../runtime/processClaim.js';
 import type { ProcessClaimInput, TenantConfig } from '../types/tenant.js';
+import { API_BASE } from '../constants.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST_DIR = resolve(__dirname, '../../dist');
@@ -37,11 +38,11 @@ function currentConfig(id: string): TenantConfig {
 
 // ── Tenant CRUD ───────────────────────────────────────────────────────────────
 
-app.get('/api/tenants', (_req, res) => {
+app.get(`${API_BASE}/tenants`, (_req, res) => {
   res.json(listTenants());
 });
 
-app.post('/api/tenants', (req, res) => {
+app.post(`${API_BASE}/tenants`, (req, res) => {
   try {
     res.status(201).json(createTenant(req.body as Omit<TenantConfig, 'id' | 'version' | 'createdAt' | 'updatedAt'>));
   } catch (err) {
@@ -49,7 +50,7 @@ app.post('/api/tenants', (req, res) => {
   }
 });
 
-app.get('/api/tenants/:id', (req, res) => {
+app.get(`${API_BASE}/tenants/:id`, (req, res) => {
   try {
     res.json(currentConfig(req.params.id));
   } catch (err) {
@@ -57,7 +58,7 @@ app.get('/api/tenants/:id', (req, res) => {
   }
 });
 
-app.put('/api/tenants/:id', (req, res) => {
+app.put(`${API_BASE}/tenants/:id`, (req, res) => {
   try {
     res.json(updateTenant(req.params.id, req.body as Omit<TenantConfig, 'id' | 'version' | 'createdAt' | 'updatedAt'>));
   } catch (err) {
@@ -65,7 +66,7 @@ app.put('/api/tenants/:id', (req, res) => {
   }
 });
 
-app.delete('/api/tenants/:id', (req, res) => {
+app.delete(`${API_BASE}/tenants/:id`, (req, res) => {
   try {
     deleteTenant(req.params.id);
     res.status(204).end();
@@ -76,7 +77,7 @@ app.delete('/api/tenants/:id', (req, res) => {
 
 // ── History + rollback ────────────────────────────────────────────────────────
 
-app.get('/api/tenants/:id/history', (req, res) => {
+app.get(`${API_BASE}/tenants/:id/history`, (req, res) => {
   try {
     res.json(getTenantHistory(req.params.id));
   } catch (err) {
@@ -84,7 +85,7 @@ app.get('/api/tenants/:id/history', (req, res) => {
   }
 });
 
-app.post('/api/tenants/:id/rollback/:version', (req, res) => {
+app.post(`${API_BASE}/tenants/:id/rollback/:version`, (req, res) => {
   try {
     res.json(rollbackTenant(req.params.id, parseInt(req.params.version)));
   } catch (err) {
@@ -94,7 +95,7 @@ app.post('/api/tenants/:id/rollback/:version', (req, res) => {
 
 // ── Preview ───────────────────────────────────────────────────────────────────
 
-app.post('/api/tenants/:id/preview', (req, res) => {
+app.post(`${API_BASE}/tenants/:id/preview`, (req, res) => {
   try {
     const config = currentConfig(req.params.id);
     res.json(processClaim(config, req.body as ProcessClaimInput));
@@ -105,7 +106,7 @@ app.post('/api/tenants/:id/preview', (req, res) => {
 
 // ── Config diff ───────────────────────────────────────────────────────────────
 
-app.get('/api/diff', (req, res) => {
+app.get(`${API_BASE}/diff`, (req, res) => {
   const { a, b } = req.query as { a?: string; b?: string };
   if (!a || !b) { res.status(400).json({ message: 'a and b query params required' }); return; }
   try {
@@ -119,7 +120,7 @@ app.get('/api/diff', (req, res) => {
 
 // ── Runtime processClaim ──────────────────────────────────────────────────────
 
-app.post('/api/process', (req, res) => {
+app.post(`${API_BASE}/process`, (req, res) => {
   const { tenantId, ...input } = req.body as { tenantId: string } & ProcessClaimInput;
   try {
     const config = currentConfig(tenantId);
@@ -139,16 +140,16 @@ if (existsSync(DIST_DIR)) {
 app.listen(PORT, () => {
   console.log(`\nMulti-Tenant Config Platform — http://localhost:${PORT}`);
   console.log('─'.repeat(50));
-  console.log('  GET    /api/tenants');
-  console.log('  POST   /api/tenants');
-  console.log('  GET    /api/tenants/:id');
-  console.log('  PUT    /api/tenants/:id');
-  console.log('  DELETE /api/tenants/:id');
-  console.log('  GET    /api/tenants/:id/history');
-  console.log('  POST   /api/tenants/:id/rollback/:version');
-  console.log('  POST   /api/tenants/:id/preview');
-  console.log('  GET    /api/diff?a=:id&b=:id');
-  console.log('  POST   /api/process');
+  console.log(`  GET    ${API_BASE}/tenants`);
+  console.log(`  POST   ${API_BASE}/tenants`);
+  console.log(`  GET    ${API_BASE}/tenants/:id`);
+  console.log(`  PUT    ${API_BASE}/tenants/:id`);
+  console.log(`  DELETE ${API_BASE}/tenants/:id`);
+  console.log(`  GET    ${API_BASE}/tenants/:id/history`);
+  console.log(`  POST   ${API_BASE}/tenants/:id/rollback/:version`);
+  console.log(`  POST   ${API_BASE}/tenants/:id/preview`);
+  console.log(`  GET    ${API_BASE}/diff?a=:id&b=:id`);
+  console.log(`  POST   ${API_BASE}/process`);
   console.log('─'.repeat(50));
   console.log(`  Client: ${existsSync(DIST_DIR) ? 'served from dist/' : 'not built yet (run npm run build:client)'}\n`);
 });

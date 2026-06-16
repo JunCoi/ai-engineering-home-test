@@ -1,6 +1,7 @@
 import type { TenantConfig, ProcessClaimInput, ProcessingResult, DiffResponse } from '../types';
+import { API_BASE } from '../../../src/constants';
 
-const BASE = '/api';
+const BASE = API_BASE;
 
 async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
