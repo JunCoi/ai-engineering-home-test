@@ -294,6 +294,8 @@ export default function TenantForm() {
               <input
                 type="number" min="0" value={form.autoApprovalThreshold}
                 onChange={e => set('autoApprovalThreshold', e.target.value)}
+                className="no-spin"
+                style={{ MozAppearance: 'textfield' } as React.CSSProperties}
               />
             </div>
           </div>
