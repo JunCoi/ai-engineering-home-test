@@ -10,7 +10,6 @@ import {
   type TenantClaimType,
   type NotificationEvent,
   type NotificationChannel,
-  type ApprovalTier,
   type CustomField,
 } from '../types';
 import { randomUUID } from '../utils';
@@ -246,29 +245,37 @@ export default function TenantForm() {
                     <div className="claim-type-body">
                       <div className="doc-section-label">Required Documents</div>
                       <div className="doc-checkboxes">
-                        {DOCUMENT_TYPES.map(doc => (
-                          <label key={doc} className="doc-checkbox">
-                            <input
-                              type="checkbox"
-                              checked={ct.requiredDocuments.includes(doc)}
-                              onChange={() => toggleDoc(type, doc, 'requiredDocuments')}
-                            />
-                            {doc.replace(/_/g, ' ')}
-                          </label>
-                        ))}
+                        {DOCUMENT_TYPES.map(doc => {
+                          const disabledReq = ct.optionalDocuments.includes(doc);
+                          return (
+                            <label key={doc} className="doc-checkbox" style={{ opacity: disabledReq ? 0.4 : 1, cursor: disabledReq ? 'default' : 'pointer' }}>
+                              <input
+                                type="checkbox"
+                                checked={ct.requiredDocuments.includes(doc)}
+                                disabled={disabledReq}
+                                onChange={() => toggleDoc(type, doc, 'requiredDocuments')}
+                              />
+                              {doc.replace(/_/g, ' ')}
+                            </label>
+                          );
+                        })}
                       </div>
                       <div className="doc-section-label" style={{ marginTop: 6 }}>Optional Documents</div>
                       <div className="doc-checkboxes">
-                        {DOCUMENT_TYPES.map(doc => (
-                          <label key={doc} className="doc-checkbox">
-                            <input
-                              type="checkbox"
-                              checked={ct.optionalDocuments.includes(doc)}
-                              onChange={() => toggleDoc(type, doc, 'optionalDocuments')}
-                            />
-                            {doc.replace(/_/g, ' ')}
-                          </label>
-                        ))}
+                        {DOCUMENT_TYPES.map(doc => {
+                          const disabledOpt = ct.requiredDocuments.includes(doc);
+                          return (
+                            <label key={doc} className="doc-checkbox" style={{ opacity: disabledOpt ? 0.4 : 1, cursor: disabledOpt ? 'default' : 'pointer' }}>
+                              <input
+                                type="checkbox"
+                                checked={ct.optionalDocuments.includes(doc)}
+                                disabled={disabledOpt}
+                                onChange={() => toggleDoc(type, doc, 'optionalDocuments')}
+                              />
+                              {doc.replace(/_/g, ' ')}
+                            </label>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
