@@ -44,8 +44,8 @@ Lần cuối tui bỏ quên đồ làm ở cty cũ, tôi quên mang cái hub cho
 ## Q6 — Vị trí nào trong hàng đợi vào rạp chiếu phim là tốt nhất?
 
 Giả sử tôi đi sớm và có thể quyết định hàng chờ của mình thì tùy trường hợp để chọn ví trí hợp lý:
-    - Trailer phim yêu thích chỉ chiếu trong rạp: Lúc này tôi sẽ đứng đầu hàng để vào rạp sớm nhất có thể
-    - Vị trí ghế ngồi: Tính từ giữa ra, càng gần ở giữa thì càng cần đứng đầu hàng để tránh đi ngang người vào trước hay hạn chế người khác đi ngang mình
+- Trailer phim yêu thích chỉ chiếu trong rạp: Lúc này tôi sẽ đứng đầu hàng để vào rạp sớm nhất có thể
+- Vị trí ghế ngồi: Tính từ giữa ra, càng gần ở giữa thì càng cần đứng đầu hàng để tránh đi ngang người vào trước hay hạn chế người khác đi ngang mình
 
 ---
 
@@ -91,5 +91,5 @@ Phương án:
 | Hành lang hình chữ L/Z không cửa | Không chạm, không hỏng, chặn tầm nhìn | Tốn diện tích |
 
 Khuyến nghị:
-    - Hành lang hình chữ L không cửa — nếu diện tích cho phép. Đây là giải pháp sân bay và trung tâm thương mại lớn hay dùng vì không cần bảo trì, không tiếp xúc và chặn tầm nhìn tốt bằng cách bẻ góc lối đi.
-    - Nếu diện tích hạn chế: cửa đẩy, có thể đẩy bằng cùi chỏ để không cần nắm.
+- Hành lang hình chữ L không cửa — nếu diện tích cho phép. Đây là giải pháp sân bay và trung tâm thương mại lớn hay dùng vì không cần bảo trì, không tiếp xúc và chặn tầm nhìn tốt bằng cách bẻ góc lối đi.
+- Nếu diện tích hạn chế: cửa đẩy, có thể đẩy bằng cùi chỏ để không cần nắm.
