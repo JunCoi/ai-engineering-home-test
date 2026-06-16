@@ -11,6 +11,7 @@ This repository contains my submissions for the AI Engineering home test — a s
 ├── challenge-12-regulatory-rule-engine/  # AI Challenge 12
 ├── challenge-13-partner-integration-sdk/ # AI Challenge 13 (+ mock server orchestrating Ch11/12/14)
 ├── challenge-14-workflow-orchestrator/   # AI Challenge 14
+├── challenge-15-multi-tenant-config/     # AI Challenge 15
 └── logical-questions/                    # Written answers
 ```
 
@@ -79,6 +80,28 @@ cd challenge-14-workflow-orchestrator
 npm install
 npm run scenarios  # run 5 built-in workflow scenarios
 npm run cli -- --help
+npm test
+```
+
+### Challenge 15 — Multi-Tenant Configuration Platform
+
+Located in `/challenge-15-multi-tenant-config`.
+
+A full-stack admin platform where each insurance company (tenant) configures their own claim processing rules — enabled claim types, document requirements, approval tiers, notification channels, SLA targets, and custom fields — without any code changes.
+
+Key features:
+- **CRUD admin UI** — create, edit, and delete tenant configurations
+- **Preview mode** — enter a sample claim and see exactly how it would be processed for that tenant (approval tier, required docs, SLA deadline, notifications)
+- **Config diff** — side-by-side comparison of any two tenant configs with highlighted differences
+- **Version history + rollback** — every save is a new version; any past version can be restored
+- **`processClaim(tenantId, input)`** runtime — same claim produces different routing, docs, and SLA across tenants
+- **Zero-code onboarding** — a 4th tenant is created entirely through the UI
+
+```bash
+cd challenge-15-multi-tenant-config
+npm install
+npm run seed       # seed SafeGuard, HealthFirst, GovHealth tenants
+npm run dev        # start API (port 3015) + Vite dev client (port 5173)
 npm test
 ```
 
